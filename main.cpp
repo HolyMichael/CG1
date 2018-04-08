@@ -3,9 +3,14 @@
 #include <GL/glut.h>
 #include <stdio.h>
 
-GLfloat angle = 0;
+struct point {
+  float x;
+  float y;
+  float z;
+};
 
-//for reshaping the window
+float angle;
+
 void reshape(int w, int h){
      //Set a view port, and make w and h into floats that openGL understands
      glViewport(0,0,(GLsizei)w,(GLsizei)h);
@@ -20,12 +25,47 @@ void InitLight(){
      glEnable(GL_LIGHTING); //turns the "lights" on
      glEnable(GL_LIGHT0); //allows light #0 out of about 8 lights to shine
      glEnable(GL_COLOR_MATERIAL); //allows color to appear when object is lit
+     
 }
 
-void cube(){
-     glColor3f(1.0,0.0,0.0); //sets the color of the cube to red
-     glRotatef(angle,1.0,1.0,1.0); //rotates the cube
-     glutSolidCube(2); //draws the cube
+void drawCubicShape(point a, point b){
+	glBegin(GL_QUADS);
+      // Top face 
+      glVertex3f( b.x, a.y, b.z); //top righty
+      glVertex3f( a.x, a.y, b.z);  //top lefty
+      glVertex3f( a.x, a.y, a.z);   //bottom lefty
+      glVertex3f( b.x, a.y, a.z); //bottom righty
+ 
+      // Bottom face 
+      glVertex3f( b.x, b.y, a.z);
+      glVertex3f( a.x, b.y, a.z);
+      glVertex3f( a.x, b.y, b.z);
+      glVertex3f( b.x, b.y, b.z);
+ 
+      // Front face 
+      glVertex3f( b.x, a.y, a.z);
+      glVertex3f( a.x, a.y, a.z);
+      glVertex3f( a.x, b.y, a.z);
+      glVertex3f( b.x, b.y, a.z);
+ 
+      // Back face
+      glVertex3f( b.x, b.y, b.z);
+      glVertex3f( a.x, b.y, b.z);
+      glVertex3f( a.x, a.y, b.z);
+      glVertex3f( b.x, a.y, b.z);
+ 
+      // Left face 
+      glVertex3f( a.x, a.y, a.z);
+      glVertex3f( a.x, a.y, b.z);
+      glVertex3f( a.x, b.y, b.z);
+      glVertex3f( a.x, b.y, a.z);
+ 
+      // Right face
+      glVertex3f( b.x,  a.y, b.z);
+      glVertex3f( b.x,  a.y, a.z);
+      glVertex3f( b.x, b.y, b.z);
+      glVertex3f( b.x, b.y, b.z);
+   glEnd();  // End of drawing color-cube
 }
 
 //then we need to display something on the window we want to create
@@ -34,20 +74,29 @@ void display(void){
      glClearColor(0.0,0.0,0.0,1.0);//clears the window color to black
      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
      glLoadIdentity(); //loads matrix identity
-     gluLookAt(0.0,0.0,60.0,0.0,0.0,0.0,0.0,1.0,0.0); //sets where camera looks
-     cube(); //displays the cube function
+     gluLookAt(0.0,5.0,5.0,0.0,0.0,0.0,0.0,1.0,0.0); //sets where camera looks
+     //glColor3f(1.0,0.0,0.0);
+     point a;
+     a.x = 0.0;
+     a.y = 5.0;
+     a.z = 1.0;
+     point b;
+     b.x = 1.0;
+     b.y = 0.0;
+     b.z = 0.0;
+     glRotatef(angle,1.0,0.0,0.0);
+     drawCubicShape(a,b); //displays the cube function
+     angle+=0.3;
+	 if(angle >= 360)
+	 	angle = 0; 
      glutSwapBuffers(); //switches between 1st and 2nd buffers
-     angle+=0.1;
-     if (angle>=360){ //this is checked in case that the float gets too big for c++ to handle, therefore preventing a crash
-          angle = 0;
-     }
 }
 
-int main(int argc, char** argv){ // type this if using MSVC++
+int main(int argc, char** argv){ 
      glutInit(&argc,argv); //initializes argc and argv's
-     glutInitDisplayMode (GL_DOUBLE | GL_RGBA | GL_DEPTH);//tells openGL to display double buffers, RedGreenBlueAlpha, and depth of light
+     glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);//tells openGL to display double buffers, RedGreenBlueAlpha, and depth of light
      glutInitWindowSize(500,500);//sets window size to 500pixels by 500pixels
-     glutInitWindowPosition(0,0);//sets the window to top left of screen
+     glutInitWindowPosition(100,100);//sets the window to top left of screen
      glutCreateWindow("Spinning Cube");//sets a caption on the window
      InitLight();//turns on the "lights"
      glutDisplayFunc(display);
