@@ -12,9 +12,8 @@ struct point {
 int i, j, k;
 float height = 1.0;
 float side = 1.0;
-
 float angle;
-int map[10][10][2]; // 1 -walls  2 - player 3 - red obj zone[1]/red caixa[0]...
+int map[10][10][3]; // 1 -walls  2 - player 3 - red obj zone[1]/red caixa[0]...
 
 void reshape(int w, int h){
      //Set a view port, and make w and h into floats that openGL understands
@@ -28,23 +27,63 @@ void reshape(int w, int h){
 void variable_setup(){
 	memset(map, 0, sizeof map);
 	map[0][0][0] = 3;
-	map[9][9][0] = 3;
-	map[9][0][0] = 3;
+	map[0][1][0] = 3;
+	map[0][2][0] = 3;
+	map[0][3][0] = 3;
+	map[0][4][0] = 3;
+	map[0][5][0] = 3;
+	map[0][6][0] = 3;
+	map[0][7][0] = 3;
+	map[0][8][0] = 3;
 	map[0][9][0] = 3;
-	map[4][5][0] = 3;
-	map[5][4][0] = 3;
-	map[4][4][0] = 3;
-	map[5][5][0] = 3;
+	
+	map[1][9][0] = 3;
+	map[2][9][0] = 3;
+	map[3][9][0] = 3;
+	map[4][9][0] = 3;
+	map[5][9][0] = 3;
+	map[6][9][0] = 3;
+	map[7][9][0] = 3;
+	map[8][9][0] = 3;
+	map[9][9][0] = 3;
+	map[0][9][0] = 3;
+	
+	map[9][0][0] = 3;
+	map[9][1][0] = 3;
+	map[9][2][0] = 3;
+	map[9][3][0] = 3;
+	map[9][4][0] = 3;
+	map[9][5][0] = 3;
+	map[9][6][0] = 3;
+	map[9][7][0] = 3;
+	map[9][8][0] = 3;
+	map[9][9][0] = 3;
+	
+	map[1][0][0] = 3;
+	map[2][0][0] = 3;
+	map[3][0][0] = 3;
+	map[4][0][0] = 3;
+	map[5][0][0] = 3;
+	map[6][0][0] = 3;
+	map[7][0][0] = 3;
+	map[8][0][0] = 3;
+	map[9][0][0] = 3;
 }
 
 void InitLight(){
-	 GLfloat light_ambient[] = { 1.0, 1.0, 1.0, 0.5 };
-	 glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient);
-     glEnable(GL_DEPTH_TEST); //Tests the depth of space
-     glEnable(GL_LIGHTING); //turns the "lights" on
-     glEnable(GL_LIGHT1); //allows light #0 out of about 8 lights to shine
-     glEnable(GL_COLOR_MATERIAL); //allows color to appear when object is lit
-     
+   GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+   GLfloat mat_shininess[] = { 100.0 };
+   GLfloat light_position[] = { 9.0, -4.0, 10.0, 1.0 };
+   glClearColor (0.0, 0.0, 0.0, 0.0);
+   glShadeModel (GL_SMOOTH);
+
+   glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+   glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+   glEnable(GL_LIGHTING);
+   glEnable(GL_LIGHT0);
+   glEnable(GL_DEPTH_TEST);
 }
 
 void drawCubicShape(point a, point b){
@@ -87,6 +126,22 @@ void drawCubicShape(point a, point b){
    glEnd();  // End of drawing color-cube
 }
 
+void createFloor(){
+	for(i=0;i<10;i++){
+ 		for(j=0;j<10;j++){
+	 			point a;
+				point b;
+				a.x= (side*j);
+				a.y= -0.5;
+				a.z= (side*i);
+				b.x= (side*(j+1));
+				b.y= 0.0;
+				b.z= (side*(i+1));
+				drawCubicShape(a,b);
+		}	
+	}
+}
+
 void createLife(){
 	for(i=0;i<10;i++){
  		for(j=0;j<10;j++){
@@ -101,10 +156,6 @@ void createLife(){
 				b.z= (side*(i+1));
 				drawCubicShape(a,b);
 			}
-			/*glRotatef(angle,1.0,0.0,0.0);
-		    angle+=0.3;
-			if(angle >= 360)
-			 	angle = 0;*/ 
 		}	
 	}
 }
@@ -116,7 +167,8 @@ void display(void){
      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
      glLoadIdentity(); //loads matrix identity
      gluLookAt(-2.0,10.0,12.0,5.0,0.0,5.0,0.0,1.0,0.0); //sets where camera looks
-     //glColor3f(1.0,0.0,0.0);
+     InitLight();
+     createFloor();
      createLife();
      glutSwapBuffers(); //switches between 1st and 2nd buffers
 }
@@ -128,7 +180,6 @@ int main(int argc, char** argv){
      glutInitWindowSize(500,500);//sets window size to 500pixels by 500pixels
      glutInitWindowPosition(100,100);//sets the window to top left of screen
      glutCreateWindow("Spinning Cube");//sets a caption on the window
-     InitLight();//turns on the "lights"
      glutDisplayFunc(display);
      glutIdleFunc(display);//since the cube is gonna be moving, openGL needs to change whats going on in the program, so it will use Idle
      glutReshapeFunc(reshape);
