@@ -2,18 +2,25 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include <stdio.h>
+#include <math.h>
 
 struct point {
   float x;
   float y;
   float z;
 };
+int playerx;
+int playerz;
 
+float redMaterial[3] = {1.0,0.0,0.0};
+float greenMaterial[3] = {0.0,1.0,0.0};
+float blueMaterial[3] = {0.0,0.0,1.0};
+float wMaterial[3] = {1.0,1.0,1.0};
 int i, j, k;
 float height = 1.0;
 float side = 1.0;
 float angle;
-int map[10][10][3]; // 1 -walls  2 - player 3 - red obj zone[1]/red caixa[0]...
+int map[10][10][2]; // 1 -walls  2 - player 3 - red obj zone[1]/red caixa[0]...
 
 void reshape(int w, int h){
      //Set a view port, and make w and h into floats that openGL understands
@@ -26,54 +33,66 @@ void reshape(int w, int h){
 
 void variable_setup(){
 	memset(map, 0, sizeof map);
-	map[0][0][0] = 3;
-	map[0][1][0] = 3;
-	map[0][2][0] = 3;
-	map[0][3][0] = 3;
-	map[0][4][0] = 3;
-	map[0][5][0] = 3;
-	map[0][6][0] = 3;
-	map[0][7][0] = 3;
-	map[0][8][0] = 3;
-	map[0][9][0] = 3;
+	map[0][0][1] = 1;
+	map[0][1][1] = 1;
+	map[0][2][1] = 1;
+	map[0][3][1] = 1;
+	map[0][4][1] = 1;
+	map[0][5][1] = 1;
+	map[0][6][1] = 1;
+	map[0][7][1] = 1;
+	map[0][8][1] = 1;
+	map[0][9][1] = 1;
 	
-	map[1][9][0] = 3;
-	map[2][9][0] = 3;
-	map[3][9][0] = 3;
-	map[4][9][0] = 3;
-	map[5][9][0] = 3;
-	map[6][9][0] = 3;
-	map[7][9][0] = 3;
-	map[8][9][0] = 3;
-	map[9][9][0] = 3;
-	map[0][9][0] = 3;
+	map[1][9][1] = 1;
+	map[2][9][1] = 1;
+	map[3][9][1] = 1;
+	map[4][9][1] = 1;
+	map[5][9][1] = 1;
+	map[6][9][1] = 1;
+	map[7][9][1] = 1;
+	map[8][9][1] = 1;
+	map[9][9][1] = 1;
+	map[0][9][1] = 1;
+	map[4][4][1] = 0;
+	map[5][5][1] = 0;
+	map[5][4][1] = 2;
 	
-	map[9][0][0] = 3;
-	map[9][1][0] = 3;
-	map[9][2][0] = 3;
-	map[9][3][0] = 3;
-	map[9][4][0] = 3;
-	map[9][5][0] = 3;
-	map[9][6][0] = 3;
-	map[9][7][0] = 3;
-	map[9][8][0] = 3;
-	map[9][9][0] = 3;
 	
-	map[1][0][0] = 3;
-	map[2][0][0] = 3;
-	map[3][0][0] = 3;
-	map[4][0][0] = 3;
-	map[5][0][0] = 3;
-	map[6][0][0] = 3;
-	map[7][0][0] = 3;
-	map[8][0][0] = 3;
-	map[9][0][0] = 3;
+	map[9][0][1] = 1;
+	map[9][1][1] = 1;
+	map[9][2][1] = 1;
+	map[9][3][1] = 1;
+	map[9][4][1] = 1;
+	map[9][5][1] = 1;
+	map[9][6][1] = 1;
+	map[9][7][1] = 1;
+	map[9][8][1] = 1;
+	map[9][9][1] = 1;
+	
+	map[1][0][1] = 1;
+	map[2][0][1] = 1;
+	map[3][0][1] = 1;
+	map[4][0][1] = 1;
+	map[5][0][1] = 1;
+	map[6][0][1] = 1;
+	map[7][0][1] = 1;
+	map[8][0][1] = 1;
+	map[9][0][1] = 1;
+	
+	for(i=0;i<10;i++)
+		for(j=0;j<10;j++)
+			if(map[i][j][1]==2){
+				playerx=i;
+				playerz=j;
+			}
 }
+			
 
 void InitLight(){
    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
    GLfloat mat_shininess[] = { 100.0 };
-   GLfloat light_position[] = { 9.0, -4.0, 10.0, 1.0 };
+   GLfloat light_position[] = { 20.0, 5.0, 20.0, 1.0 };
    glClearColor (0.0, 0.0, 0.0, 0.0);
    glShadeModel (GL_SMOOTH);
 
@@ -121,7 +140,7 @@ void drawCubicShape(point a, point b){
       // Right face
       glVertex3f( b.x,  a.y, b.z);
       glVertex3f( b.x,  a.y, a.z);
-      glVertex3f( b.x, b.y, b.z);
+      glVertex3f( b.x, b.y, a.z);
       glVertex3f( b.x, b.y, b.z);
    glEnd();  // End of drawing color-cube
 }
@@ -142,18 +161,54 @@ void createFloor(){
 	}
 }
 
-void createLife(){
+void createWall(){
 	for(i=0;i<10;i++){
  		for(j=0;j<10;j++){
- 			if(map[i][j][0] == 3){
+ 			if(map[i][j][1] == 1){
 	 			point a;
 				point b;
 				a.x= (side*j);
 				a.y= 0.0;
 				a.z= (side*i);
 				b.x= (side*(j+1));
-				b.y= height;
+				b.y= height*1.2;
 				b.z= (side*(i+1));
+				drawCubicShape(a,b);
+			}
+		}	
+	}
+}
+
+void createCubes(){
+	for(i=0;i<10;i++){
+ 		for(j=0;j<10;j++){
+ 			if(map[i][j][1] == 3){
+	 			point a;
+				point b;
+				a.x= (side*j);
+				a.y= 0.0;
+				a.z= (side*i);
+				b.x= (side*(j+1));
+				b.y= height*1.2;
+				b.z= (side*(i+1));
+				drawCubicShape(a,b);
+			}
+		}	
+	}
+}
+
+void createPlayer(){
+	for(i=0;i<10;i++){
+ 		for(j=0;j<10;j++){
+ 			if(map[i][j][1] == 2){
+	 			point a;
+				point b;
+				a.x= ((side*j)) +0.2;
+				a.y= 0.0;
+				a.z= ((side*i))+0.2;
+				b.x= ((side*(j+1)))-0.2;
+				b.y= height-0.3;
+				b.z= ((side*(i+1)))-0.2;
 				drawCubicShape(a,b);
 			}
 		}	
@@ -166,22 +221,117 @@ void display(void){
      glClearColor(0.0,0.0,0.0,1.0);//clears the window color to black
      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
      glLoadIdentity(); //loads matrix identity
-     gluLookAt(-2.0,10.0,12.0,5.0,0.0,5.0,0.0,1.0,0.0); //sets where camera looks
+     float eyeX = 5.0 + 10.0*cos(3.14)*sin(angle);
+	 float eyeY = 10.0 + 10.0*sin(3.14)*sin(angle);
+	 float eyeZ = 5.0 + 10.0*cos(angle);
+	 angle+=0.02;
+	 if (angle>360)
+	 	angle=0;
+     gluLookAt(eyeX,eyeY,eyeZ,5.0,0.0,5.0,0.0,1.0,0.0); //sets where camera looks
      InitLight();
+     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, redMaterial);
      createFloor();
-     createLife();
+     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blueMaterial);
+     createWall();
+	 glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, greenMaterial);
+     createCubes();
+     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, wMaterial);
+     createPlayer();
+     printf(" %d , %d ", playerx,playerz);
      glutSwapBuffers(); //switches between 1st and 2nd buffers
+}
+
+void keyboard(unsigned char Key, int x, int y)
+{
+	switch(Key)
+	{
+		case 'a':
+			if(map[playerx-1][playerz][1]==3){
+				if(map[playerx-2][playerz][1]==0){
+					map[playerx-2][playerz][1]=3;
+					map[playerx-1][playerz][1]=2;
+					map[playerx][playerz][1]=0;
+					playerx-=1;
+					printf("memes");
+				}
+			}
+			else if(map[playerx-1][playerz][1]==0){
+					map[playerx-2][playerz][1]=3;
+					map[playerx-1][playerz][1]=2;
+					map[playerx][playerz][1]=0;
+					playerx-=1;
+					printf("memes");
+				}
+			break;
+			
+		case 'w':
+			if(map[playerx][playerz-1][1]==3){
+				if(map[playerx][playerz-2][1]==0){
+					map[playerx][playerz-2][1]=3;
+					map[playerx][playerz-2][1]=2;
+					map[playerx][playerz][1]=0;
+					playerz-=1;
+					printf("memes");
+				}
+			}
+			else if(map[playerx][playerz-1][1]==0){
+					map[playerx][playerz-2][1]=3;
+					map[playerx][playerz-1][1]=2;
+					map[playerx][playerz][1]=0;
+					playerz-=1;
+					printf("memes");
+				}
+			break;
+			
+		case 's':
+			if(map[playerx][playerz+1][1]==3){
+				if(map[playerx][playerz+2][1]==0){
+					map[playerx][playerz+2][1]=3;
+					map[playerx][playerz+2][1]=2;
+					map[playerx][playerz][1]=0;
+					playerz+=1;
+					printf("memes");
+				}
+			}
+			else if(map[playerx][playerz+1][1]==0){
+					map[playerx][playerz+2][1]=3;
+					map[playerx][playerz+1][1]=2;
+					map[playerx][playerz][1]=0;
+					playerz+=1;
+					printf("memes");
+				}
+			break;
+		case 'd':
+			if(map[playerx+1][playerz][1]==3){
+				if(map[playerx+2][playerz][1]==0){
+					map[playerx+2][playerz][1]=3;
+					map[playerx+1][playerz][1]=2;
+					map[playerx][playerz][1]=0;
+					playerx+=1;
+					printf("memes");
+				}
+			}
+			else if(map[playerx+1][playerz][1]==0){
+					map[playerx+2][playerz][1]=3;
+					map[playerx+1][playerz][1]=2;
+					map[playerx][playerz][1]=0;
+					playerx+=1;
+					printf("memes");
+				}
+			break;
+	}	
+	glutPostRedisplay();
 }
 
 int main(int argc, char** argv){
 	 variable_setup();
      glutInit(&argc,argv); //initializes argc and argv's
      glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);//tells openGL to display double buffers, RedGreenBlueAlpha, and depth of light
-     glutInitWindowSize(500,500);//sets window size to 500pixels by 500pixels
+     glutInitWindowSize(1000,800);//sets window size to 500pixels by 500pixels
      glutInitWindowPosition(100,100);//sets the window to top left of screen
      glutCreateWindow("Spinning Cube");//sets a caption on the window
+     glutKeyboardFunc(keyboard);
      glutDisplayFunc(display);
-     glutIdleFunc(display);//since the cube is gonna be moving, openGL needs to change whats going on in the program, so it will use Idle
      glutReshapeFunc(reshape);
      glutMainLoop();
      return 0;
