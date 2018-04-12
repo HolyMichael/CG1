@@ -210,8 +210,8 @@ void playermodel(point center){
 	a.y = center.y;
 	a.z = center.z-0.3;
 	b.x = center.x+0.3;
-	b.y = center.z +0.3;
-	b.z = 2;
+	b.z = center.z +0.3;
+	b.y = 1;
 	drawCubicShape(b,a);
 }
 void createPlayer(){
@@ -219,9 +219,9 @@ void createPlayer(){
  		for(j=0;j<10;j++){
  			if(map[i][j][1] == 2){
  				point a;
- 				a.x=i;
+ 				a.x=j+.5;
  				a.y=0;
- 				a.z=j;
+ 				a.z=i+.5;
  				playermodel(a);
 			}
 		}	
@@ -265,7 +265,7 @@ void keyboard(unsigned char Key, int x, int y)
 {
 	switch(Key)
 	{
-		case 'a':
+		case 'd':
 			if(isCaixa(-1,0)){
 				if(map[playerx-2][playerz][1]==0){
 					map[playerx-2][playerz][1]=3;
@@ -318,7 +318,7 @@ void keyboard(unsigned char Key, int x, int y)
 					printf("memes");
 				}
 			break;
-		case 'd':
+		case 'a':
 			if(isCaixa(1,0)){
 				if(map[playerx+2][playerz][1]==0){
 					map[playerx+2][playerz][1]=3;
