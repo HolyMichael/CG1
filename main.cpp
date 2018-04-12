@@ -14,7 +14,7 @@ int playerz;
 int playerd=1;
 bool walkFrame = true;
 
-float redMaterial[3] = {1.0,0.0,0.0};
+float redMaterial[3] = {1.0,0.4,0.4};
 float greenMaterial[3] = {0.0,1.0,0.0};
 float blueMaterial[3] = {0.0,0.0,1.0};
 float wMaterial[3] = {1.0,1.0,1.0};
@@ -22,7 +22,7 @@ int i, j, k;
 float height = 1.0;
 float side = 1.0;
 float angle;
-int map[10][10][2]; // 1 -walls  2 - player 3 - red obj zone[1]/red caixa[0]...
+int map[10][10][2]; // 1 -walls  2 - player 3 - green obj zone[1]/green caixa[0]...
 
 void reshape(int w, int h){
      //Set a view port, and make w and h into floats that openGL understands
@@ -83,6 +83,13 @@ void variable_setup(){
 	map[9][0][1] = 1;
 	map[4][2][1] = 3;
 	map[4][3][1] = 3;
+	
+	map[2][2][0] = 3;
+	map[3][3][0] = 3;
+	map[4][4][0] = 3;
+	map[5][5][0] = 3;
+	map[6][6][0] = 3;
+	map[7][7][0] = 3;
 	
 	for(i=0;i<10;i++)
 		for(j=0;j<10;j++)
@@ -152,6 +159,8 @@ void drawCubicShape(point a, point b){
 void createFloor(){
 	for(i=0;i<10;i++){
  		for(j=0;j<10;j++){
+ 			if(map[i][j][0]==3){
+ 				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, greenMaterial);
 	 			point a;
 				point b;
 				a.x= (side*j);
@@ -161,6 +170,19 @@ void createFloor(){
 				b.y= 0.0;
 				b.z= (side*(i+1));
 				drawCubicShape(a,b);
+			}
+			else{
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, redMaterial);
+	 			point a;
+				point b;
+				a.x= (side*j);
+				a.y= -0.5;
+				a.z= (side*i);
+				b.x= (side*(j+1));
+				b.y= 0.0;
+				b.z= (side*(i+1));
+				drawCubicShape(a,b);
+			}
 		}	
 	}
 }
