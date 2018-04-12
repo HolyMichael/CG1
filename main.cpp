@@ -11,6 +11,8 @@ struct point {
 };
 int playerx;
 int playerz;
+int playerd=1;
+bool walkFrame = true;
 
 float redMaterial[3] = {1.0,0.0,0.0};
 float greenMaterial[3] = {0.0,1.0,0.0};
@@ -199,20 +201,86 @@ void createCubes(){
 	}
 }
 
-void playermodel(point center){
+void playermodel(point center,int direction){
 	glPushMatrix();
-	glTranslatef(center.x,center.y + 1,center.z);
-	glutSolidCube(0.2);
+	glTranslatef(center.x,center.y + 1.3,center.z);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, redMaterial);
+	glutSolidCube(0.5);
 	glPopMatrix();
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blueMaterial);
 	point a;
 	point b;
-	a.x = center.x-0.3;
-	a.y = center.y;
-	a.z = center.z-0.3;
-	b.x = center.x+0.3;
-	b.z = center.z +0.3;
-	b.y = 1;
-	drawCubicShape(b,a);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, wMaterial);
+	a.x = center.x-0.2;
+    a.y = center.y+0.5;
+    a.z = center.z-0.2;
+    b.x = center.x+0.2;
+    b.z = center.z +0.2;
+    b.y = 1;
+    drawCubicShape(b,a);
+	if(walkFrame){
+		a.x = center.x;
+		a.y = center.y;
+		a.z = center.z;
+		b.x = center.x-0.2;
+		b.z = center.z-0.2;
+		b.y = 0.5;
+		drawCubicShape(a,b);
+		a.x = center.x;
+		a.y = center.y;
+		a.z = center.z;
+		b.x = center.x+0.2;
+		b.z = center.z+0.2;
+		b.y = 0.5;
+		drawCubicShape(a,b);
+		walkFrame = false;
+	}else{
+		a.x = center.x;
+		a.y = center.y;
+		a.z = center.z;
+		b.x = center.x+0.2;
+		b.z = center.z-0.2;
+		b.y = 0.5;
+		drawCubicShape(a,b);
+		a.x = center.x;
+		a.y = center.y;
+		a.z = center.z;
+		b.x = center.x-0.2;
+		b.z = center.z+0.2;
+		b.y = 0.5;
+		drawCubicShape(a,b);
+		walkFrame=true;
+	}
+	b.y = 0.6;
+	a.y = center.y+0.4;
+	switch(direction){
+		case 1:
+			a.x = center.x+0.4;
+			a.z = center.z-0.1;
+			b.x = center.x+0.6;
+			b.z = center.z+0.1;
+			break;
+		case 2:
+			a.z = center.z+0.4;
+			a.x = center.x-0.1;
+			b.z = center.z+0.6;
+			b.x = center.x+0.1;
+			break;
+		case 3:
+			a.x = center.x-0.4;
+			a.z = center.z+0.1;
+			b.x = center.x-0.6;
+			b.z = center.z-0.1;
+			break;
+		case 4:
+			a.z = center.z-0.4;
+			a.x = center.x+0.1;
+			b.z = center.z-0.6;
+			b.x = center.x-0.1;
+			break;
+	}
+	
+	drawCubicShape(a,b);
 }
 void createPlayer(){
 	for(i=0;i<10;i++){
@@ -222,7 +290,7 @@ void createPlayer(){
  				a.x=j+.5;
  				a.y=0;
  				a.z=i+.5;
- 				playermodel(a);
+ 				playermodel(a,playerd);
 			}
 		}	
 	}
@@ -266,6 +334,7 @@ void keyboard(unsigned char Key, int x, int y)
 	switch(Key)
 	{
 		case 'd':
+			playerd=4;
 			if(isCaixa(-1,0)){
 				if(map[playerx-2][playerz][1]==0){
 					map[playerx-2][playerz][1]=3;
@@ -284,6 +353,7 @@ void keyboard(unsigned char Key, int x, int y)
 			break;
 			
 		case 'w':
+			playerd=3;
 			if(isCaixa(0,-1)){
 				if(map[playerx][playerz-2][1]==0){
 					map[playerx][playerz-2][1]=3;
@@ -302,6 +372,7 @@ void keyboard(unsigned char Key, int x, int y)
 			break;
 			
 		case 's':
+			playerd=1;
 			if(isCaixa(0,1)){
 				if(map[playerx][playerz+2][1]==0){
 					map[playerx][playerz+2][1]=3;
@@ -319,6 +390,7 @@ void keyboard(unsigned char Key, int x, int y)
 				}
 			break;
 		case 'a':
+			playerd=2;
 			if(isCaixa(1,0)){
 				if(map[playerx+2][playerz][1]==0){
 					map[playerx+2][playerz][1]=3;
