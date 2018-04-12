@@ -22,7 +22,7 @@ float blueMaterial[3] = {0.0,0.0,1.0};
 float wMaterial[3] = {1.0,1.0,1.0};
 int i, j, k;
 float height = 1.0;
-float side = 1.0;
+float side = 1.0001;
 int map[10][10][2]; // 1 -walls  2 - player 3 - green obj zone[1]/green caixa[0]...
 
 void reshape(int w, int h){
@@ -103,8 +103,8 @@ void variable_setup(){
 
 void InitLight(){
    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-   GLfloat mat_shininess[] = { 100.0 };
-   GLfloat light_position[] = { 20.0, 5.0, 20.0, 1.0 };
+   GLfloat mat_shininess[] = { 10.0 };
+   GLfloat light_position[] = { 10.0, 5.0, 10.0, 1.0 };
    glClearColor (0.0, 0.0, 0.0, 0.0);
    glShadeModel (GL_SMOOTH);
 
@@ -119,44 +119,64 @@ void InitLight(){
 
 void drawCubicShape(point a, point b){
 	glBegin(GL_QUADS);
-      // Top face 
-      //glNormal3f(0,0,1);
+	
+      // top face 
+      glNormal3f(0,1,0);
+      glVertex3f( b.x, b.y, a.z);
+      glNormal3f(0,1,0);
+      glVertex3f( a.x, b.y, a.z);
+      glNormal3f(0,1,0);
+      glVertex3f( a.x, b.y, b.z);
+      glNormal3f(0,1,0);
+      glVertex3f( b.x, b.y, b.z);
+      // bottom face (0.0,1,0.0);
+      glNormal3f(0,-1,0);
       glVertex3f( b.x, a.y, b.z); //top righty
-      //glNormal3f(0,0,1);
+      glNormal3f(0,-1,0);
       glVertex3f( a.x, a.y, b.z); //top lefty
-      //glNormal3f(0,0,1);
+      glNormal3f(0,-1,0);
       glVertex3f( a.x, a.y, a.z); //bottom lefty
-      //glNormal3f(0,0,1);
+      glNormal3f(0,-1,0);
       glVertex3f( b.x, a.y, a.z); //bottom righty
  
-      // Bottom face 
-      glVertex3f( b.x, b.y, a.z);
-      glVertex3f( a.x, b.y, a.z);
-      glVertex3f( a.x, b.y, b.z);
-      glVertex3f( b.x, b.y, b.z);
- 
       // Front face 
+      glNormal3f(0,0,-1);
       glVertex3f( b.x, a.y, a.z);
+      glNormal3f(0,0,-1);
       glVertex3f( a.x, a.y, a.z);
+      glNormal3f(0,0,-1);
       glVertex3f( a.x, b.y, a.z);
+      glNormal3f(0,0,-1);
       glVertex3f( b.x, b.y, a.z);
  
       // Back face
+      glNormal3f(0,0,1);
       glVertex3f( b.x, b.y, b.z);
+      glNormal3f(0,0,1);
       glVertex3f( a.x, b.y, b.z);
+      glNormal3f(0,0,1);
       glVertex3f( a.x, a.y, b.z);
+      glNormal3f(0,0,1);
       glVertex3f( b.x, a.y, b.z);
  
       // Left face 
+      glNormal3f(-1,0,0);
       glVertex3f( a.x, a.y, a.z);
+      glNormal3f(-1,0,0);
       glVertex3f( a.x, a.y, b.z);
+      glNormal3f(-1,0,0);
       glVertex3f( a.x, b.y, b.z);
+      glNormal3f(-1,0,0);
       glVertex3f( a.x, b.y, a.z);
  
       // Right face
+      glNormal3f(1,0,0);
       glVertex3f( b.x,  a.y, b.z);
+      glNormal3f(1,0,0);
       glVertex3f( b.x,  a.y, a.z);
+      glNormal3f(1,0,0);
       glVertex3f( b.x, b.y, a.z);
+      glNormal3f(1,0,0);
       glVertex3f( b.x, b.y, b.z);
    glEnd();  // End of drawing color-cube
 }
@@ -198,12 +218,12 @@ void createWall(){
  			if(map[i][j][1] == 1){
 	 			point a;
 				point b;
-				a.x= (side*j) -0.01;
+				a.x= (side*j) -0.001;
 				a.y= -.5;
-				a.z= (side*i) -0.01;
-				b.x= (side*(j+1) + 0.01);
+				a.z= (side*i) -0.001;
+				b.x= (side*(j+1) + 0.001);
 				b.y= height*1.2;
-				b.z= (side*(i+1)+0.01);
+				b.z= (side*(i+1)+0.001);
 				drawCubicShape(a,b);
 			}
 		}	
@@ -229,51 +249,50 @@ void createCubes(){
 }
 
 void playermodel(point center,int direction){
-	glPushMatrix();
-	glTranslatef(center.x,center.y + 1.3,center.z);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, redMaterial);
-	glutSolidCube(0.5);
-	glPopMatrix();
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blueMaterial);
-	point a;
-	point b;
-	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, wMaterial);
+	point a,b;
+	a.x=center.x -0.3;
+	a.y=center.y +1;
+	a.z=center.z -0.3;
+	b.x=center.x +0.3;
+	b.y=center.y + 1.5;
+	b.z=center.z +0.3;
+	drawCubicShape(a,b);
 	a.x = center.x-0.2;
     a.y = center.y+0.5;
     a.z = center.z-0.2;
     b.x = center.x+0.2;
-    b.z = center.z +0.2;
+    b.z = center.z+0.2;
     b.y = 1;
-    drawCubicShape(b,a);
-	if(walkFrame){
-		a.x = center.x;
+    drawCubicShape(a,b);
+	if(walkFrame){ //legs
+		a.x = center.x-0.2;
 		a.y = center.y;
 		a.z = center.z;
-		b.x = center.x-0.2;
+		b.x = center.x;
 		b.z = center.z-0.2;
 		b.y = 0.5;
 		drawCubicShape(a,b);
 		a.x = center.x;
 		a.y = center.y;
-		a.z = center.z;
+		a.z = center.z+0.2;
 		b.x = center.x+0.2;
-		b.z = center.z+0.2;
+		b.z = center.z;
 		b.y = 0.5;
 		drawCubicShape(a,b);
 		walkFrame = false;
 	}else{
-		a.x = center.x;
+		a.x = center.x-0.2;
 		a.y = center.y;
-		a.z = center.z;
-		b.x = center.x+0.2;
-		b.z = center.z-0.2;
+		a.z = center.z+.2;
+		b.x = center.x;
+		b.z = center.z;
 		b.y = 0.5;
 		drawCubicShape(a,b);
 		a.x = center.x;
 		a.y = center.y;
 		a.z = center.z;
-		b.x = center.x-0.2;
-		b.z = center.z+0.2;
+		b.x = center.x+0.2;
+		b.z = center.z-0.2;
 		b.y = 0.5;
 		drawCubicShape(a,b);
 		walkFrame=true;
@@ -332,7 +351,7 @@ void display(void){
      /*float eyeX = 5.0 + 10.0*cos(3.14)*sin(angle);
 	 float eyeY = 10.0 + 10.0*sin(3.14)*sin(angle);
 	 float eyeZ = 5.0 + 10.0*cos(angle);*/
-     gluLookAt(15.0,15.0,5.0,5.0,0.0,5.0,0.0,1.0,0.0); //sets where camera looks
+     gluLookAt(15.0,5.0,5.0,5.0,0.0,5.0,0.0,1.0,0.0); //sets where camera looks
      InitLight();
      createFloor();
      glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, wallMaterial);
