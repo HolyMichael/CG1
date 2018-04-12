@@ -79,6 +79,8 @@ void variable_setup(){
 	map[7][0][1] = 1;
 	map[8][0][1] = 1;
 	map[9][0][1] = 1;
+	map[4][2][1] = 3;
+	map[4][3][1] = 3;
 	
 	for(i=0;i<10;i++)
 		for(j=0;j<10;j++)
@@ -256,7 +258,6 @@ void keyboard(unsigned char Key, int x, int y)
 				}
 			}
 			else if(map[playerx-1][playerz][1]==0){
-					map[playerx-2][playerz][1]=3;
 					map[playerx-1][playerz][1]=2;
 					map[playerx][playerz][1]=0;
 					playerx-=1;
@@ -268,14 +269,13 @@ void keyboard(unsigned char Key, int x, int y)
 			if(map[playerx][playerz-1][1]==3){
 				if(map[playerx][playerz-2][1]==0){
 					map[playerx][playerz-2][1]=3;
-					map[playerx][playerz-2][1]=2;
+					map[playerx][playerz-1][1]=2;
 					map[playerx][playerz][1]=0;
 					playerz-=1;
 					printf("memes");
 				}
 			}
 			else if(map[playerx][playerz-1][1]==0){
-					map[playerx][playerz-2][1]=3;
 					map[playerx][playerz-1][1]=2;
 					map[playerx][playerz][1]=0;
 					playerz-=1;
@@ -287,14 +287,13 @@ void keyboard(unsigned char Key, int x, int y)
 			if(map[playerx][playerz+1][1]==3){
 				if(map[playerx][playerz+2][1]==0){
 					map[playerx][playerz+2][1]=3;
-					map[playerx][playerz+2][1]=2;
+					map[playerx][playerz+1][1]=2;
 					map[playerx][playerz][1]=0;
 					playerz+=1;
 					printf("memes");
 				}
 			}
 			else if(map[playerx][playerz+1][1]==0){
-					map[playerx][playerz+2][1]=3;
 					map[playerx][playerz+1][1]=2;
 					map[playerx][playerz][1]=0;
 					playerz+=1;
@@ -312,7 +311,6 @@ void keyboard(unsigned char Key, int x, int y)
 				}
 			}
 			else if(map[playerx+1][playerz][1]==0){
-					map[playerx+2][playerz][1]=3;
 					map[playerx+1][playerz][1]=2;
 					map[playerx][playerz][1]=0;
 					playerx+=1;
