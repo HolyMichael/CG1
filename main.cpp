@@ -14,6 +14,8 @@ int playerz;
 int playerd=1;
 bool walkFrame = true;
 
+float floorMaterial[4] = {1.0,0.4,0.4,1.0};
+float wallMaterial[4] = {1.0,0.2,0.2,1.0};
 float redMaterial[3] = {1.0,0.4,0.4};
 float greenMaterial[3] = {0.0,1.0,0.0};
 float blueMaterial[3] = {0.0,0.0,1.0};
@@ -21,7 +23,6 @@ float wMaterial[3] = {1.0,1.0,1.0};
 int i, j, k;
 float height = 1.0;
 float side = 1.0;
-float angle;
 int map[10][10][2]; // 1 -walls  2 - player 3 - green obj zone[1]/green caixa[0]...
 
 void reshape(int w, int h){
@@ -119,9 +120,13 @@ void InitLight(){
 void drawCubicShape(point a, point b){
 	glBegin(GL_QUADS);
       // Top face 
+      //glNormal3f(0,0,1);
       glVertex3f( b.x, a.y, b.z); //top righty
+      //glNormal3f(0,0,1);
       glVertex3f( a.x, a.y, b.z); //top lefty
+      //glNormal3f(0,0,1);
       glVertex3f( a.x, a.y, a.z); //bottom lefty
+      //glNormal3f(0,0,1);
       glVertex3f( b.x, a.y, a.z); //bottom righty
  
       // Bottom face 
@@ -172,7 +177,7 @@ void createFloor(){
 				drawCubicShape(a,b);
 			}
 			else{
-				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, redMaterial);
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, floorMaterial);
 	 			point a;
 				point b;
 				a.x= (side*j);
@@ -193,12 +198,12 @@ void createWall(){
  			if(map[i][j][1] == 1){
 	 			point a;
 				point b;
-				a.x= (side*j);
-				a.y= 0.0;
-				a.z= (side*i);
-				b.x= (side*(j+1));
+				a.x= (side*j) -0.01;
+				a.y= -.5;
+				a.z= (side*i) -0.01;
+				b.x= (side*(j+1) + 0.01);
 				b.y= height*1.2;
-				b.z= (side*(i+1));
+				b.z= (side*(i+1)+0.01);
 				drawCubicShape(a,b);
 			}
 		}	
@@ -324,17 +329,13 @@ void display(void){
      glClearColor(0.0,0.0,0.0,1.0);//clears the window color to black
      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
      glLoadIdentity(); //loads matrix identity
-     float eyeX = 5.0 + 10.0*cos(3.14)*sin(angle);
+     /*float eyeX = 5.0 + 10.0*cos(3.14)*sin(angle);
 	 float eyeY = 10.0 + 10.0*sin(3.14)*sin(angle);
-	 float eyeZ = 5.0 + 10.0*cos(angle);
-	 angle+=0.02;
-	 if (angle>360)
-	 	angle=0;
-     gluLookAt(eyeX,eyeY,eyeZ,5.0,0.0,5.0,0.0,1.0,0.0); //sets where camera looks
+	 float eyeZ = 5.0 + 10.0*cos(angle);*/
+     gluLookAt(15.0,15.0,5.0,5.0,0.0,5.0,0.0,1.0,0.0); //sets where camera looks
      InitLight();
-     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, redMaterial);
      createFloor();
-     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blueMaterial);
+     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, wallMaterial);
      createWall();
 	 glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, greenMaterial);
      createCubes();
@@ -356,6 +357,7 @@ void keyboard(unsigned char Key, int x, int y)
 	switch(Key)
 	{
 		case 'd':
+		case 'D':
 			playerd=4;
 			if(isCaixa(-1,0)){
 				if(map[playerx-2][playerz][1]==0){
@@ -375,6 +377,7 @@ void keyboard(unsigned char Key, int x, int y)
 			break;
 			
 		case 'w':
+		case 'W':
 			playerd=3;
 			if(isCaixa(0,-1)){
 				if(map[playerx][playerz-2][1]==0){
@@ -394,6 +397,7 @@ void keyboard(unsigned char Key, int x, int y)
 			break;
 			
 		case 's':
+		case 'S':
 			playerd=1;
 			if(isCaixa(0,1)){
 				if(map[playerx][playerz+2][1]==0){
@@ -412,6 +416,7 @@ void keyboard(unsigned char Key, int x, int y)
 				}
 			break;
 		case 'a':
+		case 'A':
 			playerd=2;
 			if(isCaixa(1,0)){
 				if(map[playerx+2][playerz][1]==0){
