@@ -199,19 +199,30 @@ void createCubes(){
 	}
 }
 
+void playermodel(point center){
+	glPushMatrix();
+	glTranslatef(center.x,center.y + 1,center.z);
+	glutSolidCube(0.2);
+	glPopMatrix();
+	point a;
+	point b;
+	a.x = center.x-0.3;
+	a.y = center.y;
+	a.z = center.z-0.3;
+	b.x = center.x+0.3;
+	b.y = center.z +0.3;
+	b.z = 2;
+	drawCubicShape(b,a);
+}
 void createPlayer(){
 	for(i=0;i<10;i++){
  		for(j=0;j<10;j++){
  			if(map[i][j][1] == 2){
-	 			point a;
-				point b;
-				a.x= ((side*j)) +0.2;
-				a.y= 0.0;
-				a.z= ((side*i))+0.2;
-				b.x= ((side*(j+1)))-0.2;
-				b.y= height-0.3;
-				b.z= ((side*(i+1)))-0.2;
-				drawCubicShape(a,b);
+ 				point a;
+ 				a.x=i;
+ 				a.y=0;
+ 				a.z=j;
+ 				playermodel(a);
 			}
 		}	
 	}
@@ -243,12 +254,19 @@ void display(void){
      glutSwapBuffers(); //switches between 1st and 2nd buffers
 }
 
+bool isCaixa(int xdirection, int zdirection){
+	if((map[playerx + xdirection][playerz + zdirection][1]==3)||(map[playerx + xdirection][playerz + zdirection][1]==4)||
+	(map[playerx + xdirection][playerz + zdirection][1]==5)||(map[playerx + xdirection][playerz + zdirection][1]==6))
+		return true;
+	return false;
+}
+
 void keyboard(unsigned char Key, int x, int y)
 {
 	switch(Key)
 	{
 		case 'a':
-			if(map[playerx-1][playerz][1]==3){
+			if(isCaixa(-1,0)){
 				if(map[playerx-2][playerz][1]==0){
 					map[playerx-2][playerz][1]=3;
 					map[playerx-1][playerz][1]=2;
@@ -266,7 +284,7 @@ void keyboard(unsigned char Key, int x, int y)
 			break;
 			
 		case 'w':
-			if(map[playerx][playerz-1][1]==3){
+			if(isCaixa(0,-1)){
 				if(map[playerx][playerz-2][1]==0){
 					map[playerx][playerz-2][1]=3;
 					map[playerx][playerz-1][1]=2;
@@ -284,7 +302,7 @@ void keyboard(unsigned char Key, int x, int y)
 			break;
 			
 		case 's':
-			if(map[playerx][playerz+1][1]==3){
+			if(isCaixa(0,1)){
 				if(map[playerx][playerz+2][1]==0){
 					map[playerx][playerz+2][1]=3;
 					map[playerx][playerz+1][1]=2;
@@ -301,7 +319,7 @@ void keyboard(unsigned char Key, int x, int y)
 				}
 			break;
 		case 'd':
-			if(map[playerx+1][playerz][1]==3){
+			if(isCaixa(1,0)){
 				if(map[playerx+2][playerz][1]==0){
 					map[playerx+2][playerz][1]=3;
 					map[playerx+1][playerz][1]=2;
