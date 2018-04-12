@@ -12,6 +12,7 @@ struct point {
 int playerx;
 int playerz;
 int playerd=1;
+int objectives;
 bool walkFrame = true;
 
 float floorMaterial[4] = {1.0,0.4,0.4,1.0};
@@ -23,7 +24,9 @@ float wMaterial[3] = {1.0,1.0,1.0};
 int i, j, k;
 float height = 1.0;
 float side = 1.0001;
-int map[10][10][2]; // 1 -walls  2 - player 3 - green obj zone[1]/green caixa[0]...
+int map[10][10][2]; /* 1 -walls  2 - player 
+3 - green obj zone[0]/green caixa[1] 
+4 - blue obj zone[0]/blue caixa[1]*/
 
 void reshape(int w, int h){
      //Set a view port, and make w and h into floats that openGL understands
@@ -34,8 +37,9 @@ void reshape(int w, int h){
      glMatrixMode(GL_MODELVIEW);
 }
 
-void variable_setup(){
+void level1(){
 	memset(map, 0, sizeof map);
+	objectives=2;
 	map[0][0][1] = 1;
 	map[0][1][1] = 1;
 	map[0][2][1] = 1;
@@ -47,21 +51,55 @@ void variable_setup(){
 	map[0][8][1] = 1;
 	map[0][9][1] = 1;
 	
+	map[1][0][1] = 1;
+	map[1][1][1] = 1;
+	map[1][4][1] = 1;
+	map[1][5][1] = 1;
+	map[1][8][1] = 1;
 	map[1][9][1] = 1;
+	
+	map[2][0][1] = 1;
+	map[2][2][1] = 3;
+	map[2][4][1] = 1;
+	map[2][5][1] = 1;
+	map[2][7][0] = 3;
 	map[2][9][1] = 1;
+	
+	map[3][0][1] = 1;
+	map[3][4][1] = 1;
+	map[3][5][1] = 1;
 	map[3][9][1] = 1;
+	
+	map[4][0][1] = 1;
+	map[4][1][1] = 1;
+	map[4][5][1] = 2;
+	map[4][8][1] = 1;
 	map[4][9][1] = 1;
+	
+	map[5][0][1] = 1;
+	map[5][1][1] = 1;
+	map[5][8][1] = 1;
 	map[5][9][1] = 1;
+	
+	map[6][0][1] = 1;
+	map[6][4][1] = 1;
+	map[6][5][1] = 1;
 	map[6][9][1] = 1;
+	
+	map[7][0][1] = 1;
+	map[7][2][1] = 4;
+	map[7][4][1] = 1;
+	map[7][5][1] = 1;
+	map[7][7][0] = 4;
 	map[7][9][1] = 1;
+	
+	map[8][0][1] = 1;
+	map[8][1][1] = 1;
+	map[8][4][1] = 1;
+	map[8][5][1] = 1;
+	map[8][8][1] = 1;
 	map[8][9][1] = 1;
-	map[9][9][1] = 1;
-	map[0][9][1] = 1;
-	map[4][4][1] = 0;
-	map[5][5][1] = 0;
-	map[5][4][1] = 2;
-	
-	
+		
 	map[9][0][1] = 1;
 	map[9][1][1] = 1;
 	map[9][2][1] = 1;
@@ -72,25 +110,6 @@ void variable_setup(){
 	map[9][7][1] = 1;
 	map[9][8][1] = 1;
 	map[9][9][1] = 1;
-	
-	map[1][0][1] = 1;
-	map[2][0][1] = 1;
-	map[3][0][1] = 1;
-	map[4][0][1] = 1;
-	map[5][0][1] = 1;
-	map[6][0][1] = 1;
-	map[7][0][1] = 1;
-	map[8][0][1] = 1;
-	map[9][0][1] = 1;
-	map[4][2][1] = 3;
-	map[4][3][1] = 3;
-	
-	map[2][2][0] = 3;
-	map[3][3][0] = 3;
-	map[4][4][0] = 3;
-	map[5][5][0] = 3;
-	map[6][6][0] = 3;
-	map[7][7][0] = 3;
 	
 	for(i=0;i<10;i++)
 		for(j=0;j<10;j++)
@@ -196,6 +215,18 @@ void createFloor(){
 				b.z= (side*(i+1));
 				drawCubicShape(a,b);
 			}
+			else if(map[i][j][0]==4){
+ 				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blueMaterial);
+	 			point a;
+				point b;
+				a.x= (side*j);
+				a.y= -0.5;
+				a.z= (side*i);
+				b.x= (side*(j+1));
+				b.y= 0.0;
+				b.z= (side*(i+1));
+				drawCubicShape(a,b);
+			}
 			else{
 				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, floorMaterial);
 	 			point a;
@@ -234,6 +265,19 @@ void createCubes(){
 	for(i=0;i<10;i++){
  		for(j=0;j<10;j++){
  			if(map[i][j][1] == 3){
+ 				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, greenMaterial);
+	 			point a;
+				point b;
+				a.x= (side*j);
+				a.y= 0.0;
+				a.z= (side*i);
+				b.x= (side*(j+1));
+				b.y= height*1.2;
+				b.z= (side*(i+1));
+				drawCubicShape(a,b);
+			}
+			if(map[i][j][1] == 4){
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blueMaterial);
 	 			point a;
 				point b;
 				a.x= (side*j);
@@ -351,12 +395,11 @@ void display(void){
      /*float eyeX = 5.0 + 10.0*cos(3.14)*sin(angle);
 	 float eyeY = 10.0 + 10.0*sin(3.14)*sin(angle);
 	 float eyeZ = 5.0 + 10.0*cos(angle);*/
-     gluLookAt(15.0,5.0,5.0,5.0,0.0,5.0,0.0,1.0,0.0); //sets where camera looks
+     gluLookAt(15.0,15.0,5.0,5.0,0.0,5.0,0.0,1.0,0.0); //sets where camera looks
      InitLight();
      createFloor();
      glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, wallMaterial);
      createWall();
-	 glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, greenMaterial);
      createCubes();
      glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, wMaterial);
      createPlayer();
@@ -371,99 +414,103 @@ bool isCaixa(int xdirection, int zdirection){
 	return false;
 }
 
+bool isVictory(){
+	int vic=0;
+	for(i=0;i<10;i++)
+ 		for(j=0;j<10;j++)
+ 			if(map[i][j][0]!=0)
+ 				if(map[i][j][0] == map[i][j][1])
+ 					vic++;
+ 	if(vic==objectives)
+ 		return true;
+ 	else
+ 		return false;
+}
+
 void keyboard(unsigned char Key, int x, int y)
 {
 	switch(Key)
 	{
-		case 'd':
-		case 'D':
+		case 'd': case 'D':
 			playerd=4;
 			if(isCaixa(-1,0)){
 				if(map[playerx-2][playerz][1]==0){
-					map[playerx-2][playerz][1]=3;
+					map[playerx-2][playerz][1]=map[playerx-1][playerz][1];
 					map[playerx-1][playerz][1]=2;
 					map[playerx][playerz][1]=0;
 					playerx-=1;
-					printf("memes");
 				}
 			}
 			else if(map[playerx-1][playerz][1]==0){
 					map[playerx-1][playerz][1]=2;
 					map[playerx][playerz][1]=0;
 					playerx-=1;
-					printf("memes");
 				}
 			break;
-			
-		case 'w':
-		case 'W':
+		case 'w': case 'W':
 			playerd=3;
 			if(isCaixa(0,-1)){
 				if(map[playerx][playerz-2][1]==0){
-					map[playerx][playerz-2][1]=3;
+					map[playerx][playerz-2][1]=map[playerx][playerz-1][1];
 					map[playerx][playerz-1][1]=2;
 					map[playerx][playerz][1]=0;
 					playerz-=1;
-					printf("memes");
 				}
 			}
 			else if(map[playerx][playerz-1][1]==0){
 					map[playerx][playerz-1][1]=2;
 					map[playerx][playerz][1]=0;
 					playerz-=1;
-					printf("memes");
 				}
 			break;
-			
-		case 's':
-		case 'S':
+		case 's': case 'S':
 			playerd=1;
 			if(isCaixa(0,1)){
 				if(map[playerx][playerz+2][1]==0){
-					map[playerx][playerz+2][1]=3;
+					map[playerx][playerz+2][1]=map[playerx][playerz+1][1];
 					map[playerx][playerz+1][1]=2;
 					map[playerx][playerz][1]=0;
 					playerz+=1;
-					printf("memes");
 				}
 			}
 			else if(map[playerx][playerz+1][1]==0){
 					map[playerx][playerz+1][1]=2;
 					map[playerx][playerz][1]=0;
 					playerz+=1;
-					printf("memes");
 				}
 			break;
-		case 'a':
-		case 'A':
+		case 'a': case 'A':
 			playerd=2;
 			if(isCaixa(1,0)){
 				if(map[playerx+2][playerz][1]==0){
-					map[playerx+2][playerz][1]=3;
+					map[playerx+2][playerz][1]=map[playerx+1][playerz][1];
 					map[playerx+1][playerz][1]=2;
 					map[playerx][playerz][1]=0;
 					playerx+=1;
-					printf("memes");
 				}
 			}
 			else if(map[playerx+1][playerz][1]==0){
 					map[playerx+1][playerz][1]=2;
 					map[playerx][playerz][1]=0;
 					playerx+=1;
-					printf("memes");
 				}
 			break;
+			case 'r': case 'R':
+				level1();
+				break;
 	}	
+	if(isVictory())
+		printf("objectifialalas memes");
 	glutPostRedisplay();
 }
 
 int main(int argc, char** argv){
-	 variable_setup();
+	 level1();
      glutInit(&argc,argv); //initializes argc and argv's
      glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);//tells openGL to display double buffers, RedGreenBlueAlpha, and depth of light
      glutInitWindowSize(1000,800);//sets window size to 500pixels by 500pixels
      glutInitWindowPosition(100,100);//sets the window to top left of screen
-     glutCreateWindow("Spinning Cube");//sets a caption on the window
+     glutCreateWindow("Sandokan 3 cuecas e 1 sutia");//sets a caption on the window
      glutKeyboardFunc(keyboard);
      glutDisplayFunc(display);
      glutReshapeFunc(reshape);
