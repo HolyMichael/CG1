@@ -27,7 +27,12 @@ float height = 1.0;
 float side = 1.0001;
 int map[10][10][2]; /* 1 -walls  2 - player 
 3 - green obj zone[0]/green caixa[1] 
-4 - blue obj zone[0]/blue caixa[1]*/
+4 - blue obj zone[0]/blue caixa[1]
+11 - green key
+12 - blue key
+21 - green door
+22 - blue door*/
+
 
 void reshape(int w, int h){
      //Set a view port, and make w and h into floats that openGL understands
@@ -56,6 +61,8 @@ void level1(){
 	map[1][1][1] = 1;
 	map[1][4][1] = 1;
 	map[1][5][1] = 1;
+	map[2][3][1] = 22;//pls remove after TODO
+	map[5][6][1] = 12;//pls remove after TODO
 	map[1][8][1] = 1;
 	map[1][9][1] = 1;
 	
@@ -99,6 +106,85 @@ void level1(){
 	map[8][4][1] = 1;
 	map[8][5][1] = 1;
 	map[8][8][1] = 1;
+	map[8][9][1] = 1;
+		
+	map[9][0][1] = 1;
+	map[9][1][1] = 1;
+	map[9][2][1] = 1;
+	map[9][3][1] = 1;
+	map[9][4][1] = 1;
+	map[9][5][1] = 1;
+	map[9][6][1] = 1;
+	map[9][7][1] = 1;
+	map[9][8][1] = 1;
+	map[9][9][1] = 1;
+	
+	for(i=0;i<10;i++)
+		for(j=0;j<10;j++)
+			if(map[i][j][1]==2){
+				playerx=i;
+				playerz=j;
+			}
+}
+
+void level2(){
+	memset(map, 0, sizeof map);
+	objectives=4;
+	map[0][0][1] = 1;
+	map[0][1][1] = 1;
+	map[0][2][1] = 1;
+	map[0][3][1] = 1;
+	map[0][4][1] = 1;
+	map[0][5][1] = 1;
+	map[0][6][1] = 1;
+	map[0][7][1] = 1;
+	map[0][8][1] = 1;
+	map[0][9][1] = 1;
+	
+	map[1][0][1] = 1;
+	map[1][9][1] = 1;
+	
+	map[2][0][1] = 1;
+	map[2][2][1] = 1;
+	map[2][3][1] = 1;
+	map[2][4][1] = 3;
+	map[2][6][1] = 1;
+	map[2][7][1] = 1;
+	map[2][9][1] = 1;
+	
+	map[3][0][1] = 1;
+	map[3][2][1] = 1;
+	map[3][3][0] = 3;
+	map[3][6][1] = 1;
+	map[3][7][0] = 3;
+	map[3][9][1] = 1;
+	
+	map[4][0][1] = 1;
+	map[4][2][1] = 4;
+	map[4][3][1] = 4;
+	map[4][5][1] = 2;
+	map[4][9][1] = 1;
+	
+	map[5][0][1] = 1;
+	map[5][2][1] = 3;
+	map[5][7][0] = 4;
+	map[5][9][1] = 1;
+	
+	map[6][0][1] = 1;
+	map[6][2][1] = 1;
+	map[6][3][0] = 4;
+	map[6][6][1] = 1;
+	map[6][7][1] = 1;
+	map[6][9][1] = 1;
+	
+	map[7][0][1] = 1;
+	map[7][2][1] = 1;
+	map[7][3][1] = 1;
+	map[7][6][1] = 1;
+	map[7][7][1] = 1;
+	map[7][9][1] = 1;
+	
+	map[8][0][1] = 1;
 	map[8][9][1] = 1;
 		
 	map[9][0][1] = 1;
@@ -213,86 +299,7 @@ void level3(){
 				playerx=i;
 				playerz=j;
 			}
-}
-
-void level2(){
-	memset(map, 0, sizeof map);
-	objectives=4;
-	map[0][0][1] = 1;
-	map[0][1][1] = 1;
-	map[0][2][1] = 1;
-	map[0][3][1] = 1;
-	map[0][4][1] = 1;
-	map[0][5][1] = 1;
-	map[0][6][1] = 1;
-	map[0][7][1] = 1;
-	map[0][8][1] = 1;
-	map[0][9][1] = 1;
-	
-	map[1][0][1] = 1;
-	map[1][9][1] = 1;
-	
-	map[2][0][1] = 1;
-	map[2][2][1] = 1;
-	map[2][3][1] = 1;
-	map[2][4][1] = 3;
-	map[2][6][1] = 1;
-	map[2][7][1] = 1;
-	map[2][9][1] = 1;
-	
-	map[3][0][1] = 1;
-	map[3][2][1] = 1;
-	map[3][3][0] = 3;
-	map[3][6][1] = 1;
-	map[3][7][0] = 3;
-	map[3][9][1] = 1;
-	
-	map[4][0][1] = 1;
-	map[4][2][1] = 4;
-	map[4][3][1] = 4;
-	map[4][5][1] = 2;
-	map[4][9][1] = 1;
-	
-	map[5][0][1] = 1;
-	map[5][2][1] = 3;
-	map[5][7][0] = 4;
-	map[5][9][1] = 1;
-	
-	map[6][0][1] = 1;
-	map[6][2][1] = 1;
-	map[6][3][0] = 4;
-	map[6][6][1] = 1;
-	map[6][7][1] = 1;
-	map[6][9][1] = 1;
-	
-	map[7][0][1] = 1;
-	map[7][2][1] = 1;
-	map[7][3][1] = 1;
-	map[7][6][1] = 1;
-	map[7][7][1] = 1;
-	map[7][9][1] = 1;
-	
-	map[8][0][1] = 1;
-	map[8][9][1] = 1;
-		
-	map[9][0][1] = 1;
-	map[9][1][1] = 1;
-	map[9][2][1] = 1;
-	map[9][3][1] = 1;
-	map[9][4][1] = 1;
-	map[9][5][1] = 1;
-	map[9][6][1] = 1;
-	map[9][7][1] = 1;
-	map[9][8][1] = 1;
-	map[9][9][1] = 1;
-	
-	for(i=0;i<10;i++)
-		for(j=0;j<10;j++)
-			if(map[i][j][1]==2){
-				playerx=i;
-				playerz=j;
-			}
-}				
+}			
 
 void InitLight(){
    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
@@ -462,6 +469,54 @@ void createCubes(){
 				b.z= (side*(i+1));
 				drawCubicShape(a,b);
 			}
+			if(map[i][j][1] == 21){
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, greenMaterial);
+	 			point a;
+				point b;
+				a.x= (side*j) -0.1;
+				a.y= -.5;
+				a.z= (side*i) -0.1;
+				b.x= (side*(j+1) + 0.1);
+				b.y= height*1.5;
+				b.z= (side*(i+1)+0.1);
+				drawCubicShape(a,b);
+			}
+			if(map[i][j][1] == 11){
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, greenMaterial);
+	 			point a;
+				point b;
+				a.x= (side*j) +0.2;
+				a.y= +.2;
+				a.z= (side*i) +0.2;
+				b.x= (side*(j+1) - 0.2);
+				b.y= height*0.6;
+				b.z= (side*(i+1) - 0.2);
+				drawCubicShape(a,b);
+			}
+			if(map[i][j][1] == 22){
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blueMaterial);
+	 			point a;
+				point b;
+				a.x= (side*j) -0.1;
+				a.y= -.5;
+				a.z= (side*i) -0.1;
+				b.x= (side*(j+1) + 0.1);
+				b.y= height*1.5;
+				b.z= (side*(i+1)+0.1);
+				drawCubicShape(a,b);
+			}
+			if(map[i][j][1] == 12){
+				glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, blueMaterial);
+	 			point a;
+				point b;
+				a.x= (side*j) +0.2;
+				a.y= +.2;
+				a.z= (side*i) +0.2;
+				b.x= (side*(j+1) - 0.2);
+				b.y= height*0.6;
+				b.z= (side*(i+1) - 0.2);
+				drawCubicShape(a,b);
+			}
 		}	
 	}
 }
@@ -569,7 +624,7 @@ void display(void){
      /*float eyeX = 5.0 + 10.0*cos(3.14)*sin(angle);
 	 float eyeY = 10.0 + 10.0*sin(3.14)*sin(angle);
 	 float eyeZ = 5.0 + 10.0*cos(angle);*/
-     gluLookAt(15.0,15.0,5.0,5.0,0.0,5.0,0.0,1.0,0.0); //sets where camera looks
+     gluLookAt(5.0,10.0,15.0,5.0,0.0,5.0,0.0,1.0,0.0); //sets where camera looks
      InitLight();
      createFloor();
      glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, wallMaterial);
@@ -583,9 +638,12 @@ void display(void){
      glutSwapBuffers(); //switches between 1st and 2nd buffers
 }
 
-bool isCaixa(int xdirection, int zdirection){
-	if((map[playerx + xdirection][playerz + zdirection][1]==3)||(map[playerx + xdirection][playerz + zdirection][1]==4)||
-	(map[playerx + xdirection][playerz + zdirection][1]==5)||(map[playerx + xdirection][playerz + zdirection][1]==6))
+int walkInto(int xdirection, int zdirection){
+	return map[playerx + xdirection][playerz + zdirection][1];
+}
+
+bool isCaixa(int target){
+	if(target==3 || target==4)
 		return true;
 	return false;
 }
@@ -603,13 +661,24 @@ bool isVictory(){
  		return false;
 }
 
+void openDoor(int color){
+	for(i=0;i<10;i++)
+		for(j=0;j<10;j++){
+			printf("%d",color);
+			if(map[i][j][1]==(color+10)){
+				map[i][j][1]=0;
+				printf("removing door");
+			}
+		}
+}
+
 void keyboard(unsigned char Key, int x, int y)
 {
 	switch(Key)
 	{
-		case 'd': case 'D':
+		case 'W': case 'w':
 			playerd=4;
-			if(isCaixa(-1,0)){
+			if(isCaixa(walkInto(-1,0))){
 				if(map[playerx-2][playerz][1]==0){
 					map[playerx-2][playerz][1]=map[playerx-1][playerz][1];
 					map[playerx-1][playerz][1]=2;
@@ -617,15 +686,21 @@ void keyboard(unsigned char Key, int x, int y)
 					playerx-=1;
 				}
 			}
-			else if(map[playerx-1][playerz][1]==0){
-					map[playerx-1][playerz][1]=2;
-					map[playerx][playerz][1]=0;
-					playerx-=1;
-				}
+			else if(walkInto(-1,0)==0){
+				map[playerx-1][playerz][1]=2;
+				map[playerx][playerz][1]=0;
+				playerx-=1;
+			}
+			else if(walkInto(-1,0)==11 || walkInto(-1,0)==12){
+				openDoor(walkInto(-1,0));
+				map[playerx][playerz][1]=0;
+				playerx-=1;
+				map[playerx][playerz][1]=2;
+			}
 			break;
-		case 'w': case 'W':
+		case 'a': case 'A':
 			playerd=3;
-			if(isCaixa(0,-1)){
+			if(isCaixa(walkInto(0,-1))){
 				if(map[playerx][playerz-2][1]==0){
 					map[playerx][playerz-2][1]=map[playerx][playerz-1][1];
 					map[playerx][playerz-1][1]=2;
@@ -633,15 +708,21 @@ void keyboard(unsigned char Key, int x, int y)
 					playerz-=1;
 				}
 			}
-			else if(map[playerx][playerz-1][1]==0){
-					map[playerx][playerz-1][1]=2;
-					map[playerx][playerz][1]=0;
-					playerz-=1;
-				}
+			else if(walkInto(0,-1)==0){
+				map[playerx][playerz-1][1]=2;
+				map[playerx][playerz][1]=0;
+				playerz-=1;
+			}
+			else if(walkInto(0,-1)==11 || walkInto(0,-1)==12){
+				openDoor(walkInto(0,-1));
+				map[playerx][playerz][1]=0;
+				playerz-=1;
+				map[playerx][playerz][1]=2;
+			}
 			break;
-		case 's': case 'S':
+		case 'd': case 'D':
 			playerd=1;
-			if(isCaixa(0,1)){
+			if(isCaixa(walkInto(0,1))){
 				if(map[playerx][playerz+2][1]==0){
 					map[playerx][playerz+2][1]=map[playerx][playerz+1][1];
 					map[playerx][playerz+1][1]=2;
@@ -649,15 +730,21 @@ void keyboard(unsigned char Key, int x, int y)
 					playerz+=1;
 				}
 			}
-			else if(map[playerx][playerz+1][1]==0){
-					map[playerx][playerz+1][1]=2;
-					map[playerx][playerz][1]=0;
-					playerz+=1;
-				}
+			else if(walkInto(0,1)==0){
+				map[playerx][playerz+1][1]=2;
+				map[playerx][playerz][1]=0;
+				playerz+=1;
+			}
+			else if(walkInto(0,1)==11 || walkInto(0,1)==12){
+				openDoor(walkInto(0,1));
+				map[playerx][playerz][1]=0;
+				playerz+=1;
+				map[playerx][playerz][1]=2;
+			}
 			break;
-		case 'a': case 'A':
+		case 's': case 'S':
 			playerd=2;
-			if(isCaixa(1,0)){
+			if(isCaixa(walkInto(1,0))){
 				if(map[playerx+2][playerz][1]==0){
 					map[playerx+2][playerz][1]=map[playerx+1][playerz][1];
 					map[playerx+1][playerz][1]=2;
@@ -665,11 +752,17 @@ void keyboard(unsigned char Key, int x, int y)
 					playerx+=1;
 				}
 			}
-			else if(map[playerx+1][playerz][1]==0){
-					map[playerx+1][playerz][1]=2;
-					map[playerx][playerz][1]=0;
-					playerx+=1;
-				}
+			else if(walkInto(1,0)==0){
+				map[playerx+1][playerz][1]=2;
+				map[playerx][playerz][1]=0;
+				playerx+=1;
+			}
+			else if(walkInto(1,0)==11 || walkInto(1,0)==12){
+				openDoor(walkInto(1,0));
+				map[playerx][playerz][1]=0;
+				playerx+=1;
+				map[playerx][playerz][1]=2;
+			}
 			break;
 			case 'r': case 'R':
 				level2();
@@ -679,6 +772,16 @@ void keyboard(unsigned char Key, int x, int y)
 					flagRenderBoxes=false;
 				else
 					flagRenderBoxes=true;
+				break;
+			case '1':
+				level1();
+				break;
+			case '2':
+				level2();
+				break;
+			case '3':
+				level3();
+				break;
 	}	
 	if(isVictory())
 		printf("objectifialalas memes");
