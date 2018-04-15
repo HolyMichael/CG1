@@ -482,7 +482,6 @@ void display(void){
      if(flagRenderBoxes){
      	createCubes();
     }
-    flagRenderBoxes=true;
      glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, wMaterial);
      createPlayer();
      printf(" %d , %d ", playerx,playerz);
@@ -583,6 +582,8 @@ void keyboard(unsigned char Key, int x, int y)
 			case 't': case 'T':
 				if(flagRenderBoxes)
 					flagRenderBoxes=false;
+				else
+					flagRenderBoxes=true;
 	}	
 	if(isVictory())
 		printf("objectifialalas memes");
