@@ -13,6 +13,7 @@ int playerx;
 int playerz;
 int playerd=1;
 int objectives;
+bool flagRenderBoxes=true;
 bool walkFrame = true;
 
 float floorMaterial[4] = {1.0,0.4,0.4,1.0};
@@ -478,7 +479,10 @@ void display(void){
      createFloor();
      glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, wallMaterial);
      createWall();
-     createCubes();
+     if(flagRenderBoxes){
+     	createCubes();
+    }
+    flagRenderBoxes=true;
      glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, wMaterial);
      createPlayer();
      printf(" %d , %d ", playerx,playerz);
@@ -576,6 +580,9 @@ void keyboard(unsigned char Key, int x, int y)
 			case 'r': case 'R':
 				level2();
 				break;
+			case 't': case 'T':
+				if(flagRenderBoxes)
+					flagRenderBoxes=false;
 	}	
 	if(isVictory())
 		printf("objectifialalas memes");
