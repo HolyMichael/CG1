@@ -118,7 +118,85 @@ void level1(){
 				playerz=j;
 			}
 }
-			
+
+void level2(){
+	memset(map, 0, sizeof map);
+	objectives=4;
+	map[0][0][1] = 1;
+	map[0][1][1] = 1;
+	map[0][2][1] = 1;
+	map[0][3][1] = 1;
+	map[0][4][1] = 1;
+	map[0][5][1] = 1;
+	map[0][6][1] = 1;
+	map[0][7][1] = 1;
+	map[0][8][1] = 1;
+	map[0][9][1] = 1;
+	
+	map[1][0][1] = 1;
+	map[1][9][1] = 1;
+	
+	map[2][0][1] = 1;
+	map[2][2][1] = 1;
+	map[2][3][1] = 1;
+	map[2][4][1] = 3;
+	map[2][6][1] = 1;
+	map[2][7][1] = 1;
+	map[2][9][1] = 1;
+	
+	map[3][0][1] = 1;
+	map[3][2][1] = 1;
+	map[3][3][0] = 3;
+	map[3][6][1] = 1;
+	map[3][7][0] = 3;
+	map[3][9][1] = 1;
+	
+	map[4][0][1] = 1;
+	map[4][2][1] = 4;
+	map[4][3][1] = 4;
+	map[4][5][1] = 2;
+	map[4][9][1] = 1;
+	
+	map[5][0][1] = 1;
+	map[5][2][1] = 3;
+	map[5][7][0] = 4;
+	map[5][9][1] = 1;
+	
+	map[6][0][1] = 1;
+	map[6][2][1] = 1;
+	map[6][3][0] = 4;
+	map[6][6][1] = 1;
+	map[6][7][1] = 1;
+	map[6][9][1] = 1;
+	
+	map[7][0][1] = 1;
+	map[7][2][1] = 1;
+	map[7][3][1] = 1;
+	map[7][6][1] = 1;
+	map[7][7][1] = 1;
+	map[7][9][1] = 1;
+	
+	map[8][0][1] = 1;
+	map[8][9][1] = 1;
+		
+	map[9][0][1] = 1;
+	map[9][1][1] = 1;
+	map[9][2][1] = 1;
+	map[9][3][1] = 1;
+	map[9][4][1] = 1;
+	map[9][5][1] = 1;
+	map[9][6][1] = 1;
+	map[9][7][1] = 1;
+	map[9][8][1] = 1;
+	map[9][9][1] = 1;
+	
+	for(i=0;i<10;i++)
+		for(j=0;j<10;j++)
+			if(map[i][j][1]==2){
+				playerx=i;
+				playerz=j;
+			}
+}			
 
 void InitLight(){
    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
@@ -496,7 +574,7 @@ void keyboard(unsigned char Key, int x, int y)
 				}
 			break;
 			case 'r': case 'R':
-				level1();
+				level2();
 				break;
 	}	
 	if(isVictory())
@@ -505,7 +583,7 @@ void keyboard(unsigned char Key, int x, int y)
 }
 
 int main(int argc, char** argv){
-	 level1();
+	 level2();
      glutInit(&argc,argv); //initializes argc and argv's
      glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);//tells openGL to display double buffers, RedGreenBlueAlpha, and depth of light
      glutInitWindowSize(1000,800);//sets window size to 500pixels by 500pixels
