@@ -50,9 +50,6 @@ void testLevel(){
 	memset(map, 0, sizeof map);
 	objectives = 3000;
 	map[4][5][1] = 31;
-	map[4][4][1] = 1;
-	map[5][5][1] = 1;
-	map[3][5][1] = 1;
 	map[4][2][1] = 3;
 	map[6][4][1] = 2;
 	map[8][7][1] = 31;
@@ -763,15 +760,14 @@ bool pjS(int posx, int posz){
 }
 
 bool pjD(int posx, int posz){
-	if(walkInto(0,1, posx, posz) == 0){
+	if(walkInto(0,+1, posx, posz) == 0){
 				playerx = posx;
 				playerz = posz+1;
 				playerd = 1;
 				return true;
-				
 			}
-	else if(isCaixa(walkInto(0,1, posx, posz))){
-		if(walkInto(0,1, posx, posz+1)==0){
+	else if(isCaixa(walkInto(0,+1, posx, posz))){
+		if(walkInto(0,+1, posx, posz+1)==0){
 			map[posx][posz+2][1]=map[posx][posz+1][1];
 			playerx = posx;
 			playerz = posz+1;
@@ -782,6 +778,75 @@ bool pjD(int posx, int posz){
 	return false;
 }
 
+bool pjcW(int posx, int posz, int obj){
+	if(walkInto(-1,0, posx, posz) == 0){
+		map[posx-1][posz][1]=obj;
+		return true;
+	}
+	return false;
+}
+
+bool pjcA(int posx, int posz, int obj){
+	if(walkInto(0,-1, posx, posz) == 0){
+		map[posx][posz-1][1]=obj;
+		return true;
+	}
+	return false;
+}
+
+bool pjcS(int posx, int posz, int obj){
+	if(walkInto(1,0, posx, posz) == 0){
+		map[posx+1][posz][1]=obj;
+		return true;
+	}
+	return false;
+}
+
+bool pjcD(int posx, int posz, int obj){
+	if(walkInto(0,+1, posx, posz) == 0){
+		map[posx][posz+1][1]=obj;
+		return true;
+	}
+	return false;
+}
+
+bool caixaPortaliJumpi(int obj,int x, int y){
+	int posx, posz;
+	for(i=0;i<10;i++)
+		for(j=0;j<10;j++){
+			if(map[i][j][1] == (31) && i != x && j != y){
+				posx = i;
+				posz = j;
+			}
+		}
+	switch(playerd){
+		case 1:
+			if(pjcD(posx, posz, obj));
+			else if(pjcS(posx, posz, obj));
+			else if(pjcA(posx, posz, obj));
+			else if(pjcW(posx, posz, obj));
+			break;
+		case 2:
+			if(pjcS(posx, posz, obj));
+			else if(pjcA(posx, posz, obj));
+			else if(pjcW(posx, posz, obj));
+			else if(pjcD(posx, posz, obj));
+			break;
+		case 3:
+			if(pjcA(posx, posz, obj));
+			else if(pjcW(posx, posz, obj));
+			else if(pjcD(posx, posz, obj));
+			else if(pjcS(posx, posz, obj));
+			break;
+		case 4:
+			if(pjcW(posx, posz, obj));
+			else if(pjcD(posx, posz, obj));
+			else if(pjcS(posx, posz, obj));
+			else if(pjcA(posx, posz, obj));
+			break;
+	}
+	
+}
 void portaliJumpi(int obj){
 	int posx, posz;
 	for(i=0;i<10;i++)
@@ -841,6 +906,12 @@ void keyboard(unsigned char Key, int x, int y)
 					map[playerx][playerz][1]=0;
 					playerx-=1;
 				}
+				else if(map[playerx-2][playerz][1]==31){
+					caixaPortaliJumpi(map[playerx-1][playerz][1], playerx-2, playerz);
+					map[playerx][playerz][1] = 0;
+					map[playerx-1][playerz][1] = 2;
+					playerx-=1;
+				}
 			}
 			else if(walkInto(-1,0, playerx, playerz)==0){
 				map[playerx-1][playerz][1]=2;
@@ -866,6 +937,12 @@ void keyboard(unsigned char Key, int x, int y)
 					map[playerx][playerz-2][1]=map[playerx][playerz-1][1];
 					map[playerx][playerz-1][1]=2;
 					map[playerx][playerz][1]=0;
+					playerz-=1;
+				}
+				else if(map[playerx][playerz-2][1]==31){
+					caixaPortaliJumpi(map[playerx][playerz-1][1], playerx, playerz-2);
+					map[playerx][playerz][1] = 0;
+					map[playerx][playerz-1][1] = 2;
 					playerz-=1;
 				}
 			}
@@ -895,6 +972,12 @@ void keyboard(unsigned char Key, int x, int y)
 					map[playerx][playerz][1]=0;
 					playerz+=1;
 				}
+				else if(map[playerx][playerz+2][1]==31){
+					caixaPortaliJumpi(map[playerx][playerz+1][1], playerx, playerz+2);
+					map[playerx][playerz][1] = 0;
+					map[playerx][playerz+1][1] = 2;
+					playerz+=1;
+				}
 			}
 			else if(walkInto(0,1, playerx, playerz)==0){
 				map[playerx][playerz+1][1]=2;
@@ -920,6 +1003,12 @@ void keyboard(unsigned char Key, int x, int y)
 					map[playerx+2][playerz][1]=map[playerx+1][playerz][1];
 					map[playerx+1][playerz][1]=2;
 					map[playerx][playerz][1]=0;
+					playerx+=1;
+				}
+				else if(map[playerx+2][playerz][1]==31){
+					caixaPortaliJumpi(map[playerx+1][playerz][1], playerx+2, playerz);
+					map[playerx][playerz][1] = 0;
+					map[playerx+1][playerz][1] = 2;
 					playerx+=1;
 				}
 			}
