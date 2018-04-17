@@ -17,6 +17,7 @@ bool flagRenderBoxes=true;
 bool walkFrame = true;
 float cameraHeight=15.0;
 float cameraCenter=10.0;
+int currLevel = 1;
 
 float floorMaterial[4] = {1.0,0.4,0.4,1.0};
 float wallMaterial[4] = {1.0,0.2,0.2,1.0};
@@ -318,7 +319,51 @@ void level3(){
 				playerx=i;
 				playerz=j;
 			}
-}			
+}	
+
+void switchLevel(){
+	printf("\ncurrlevel is %d\n",currLevel);
+	switch (currLevel){
+		case 1:
+			level1();
+			break;
+		case 2:
+			level2();
+			break;
+		case 3: 
+			level3();
+			break;
+	}
+}	
+
+void animationFadeIn(int time){
+	cameraHeight-=.5;
+	cameraCenter+=.5;
+	gluLookAt(5.0,cameraHeight,cameraCenter,5.0,0.0,5.0,0.0,1.0,0.0);
+	if(cameraHeight<15){
+		glutPostRedisplay();
+	}
+	else{
+		glutTimerFunc(100, animationFadeIn, 0);
+		glutPostRedisplay();
+	}
+	
+}	
+
+void animationFadeOut(int time){
+	cameraHeight+=.5;
+	cameraCenter-=.5;
+	gluLookAt(5.0,cameraHeight,cameraCenter,5.0,0.0,5.0,0.0,1.0,0.0);
+	if(cameraHeight>20){
+		switchLevel();
+		glutTimerFunc(100, animationFadeIn, 0);
+	}
+	else{
+		glutTimerFunc(100, animationFadeOut, 0);
+		glutPostRedisplay();
+	}
+	
+}
 
 void InitLight(){
    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
@@ -686,8 +731,11 @@ bool isVictory(){
  			if(map[i][j][0]!=0)
  				if(map[i][j][0] == map[i][j][1])
  					vic++;
- 	if(vic==objectives)
+ 	if(vic==objectives){
+ 		currLevel++;
+ 		glutTimerFunc(100, animationFadeOut, 0);
  		return true;
+ 	}
  	else
  		return false;
 }
@@ -1030,7 +1078,7 @@ void keyboard(unsigned char Key, int x, int y)
 			}
 			break;
 		case 'r': case 'R':
-			testLevel();
+			switchLevel();
 			break;
 		case 't': case 'T':
 			if(flagRenderBoxes)
@@ -1060,12 +1108,12 @@ void keyboard(unsigned char Key, int x, int y)
 			break;
 	}	
 	if(isVictory())
-		printf("objectifialalas memes");
+		glutTimerFunc(100, animationFadeOut, 0);
 	glutPostRedisplay();
 }
 
 int main(int argc, char** argv){
-	 testLevel();
+	 switchLevel();
      glutInit(&argc,argv); //initializes argc and argv's
      glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);//tells openGL to display double buffers, RedGreenBlueAlpha, and depth of light
      glutInitWindowSize(1000,800);//sets window size to 500pixels by 500pixels
