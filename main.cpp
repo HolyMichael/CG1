@@ -25,7 +25,7 @@ float redMaterial[3] = {1.0,0.4,0.4};
 float greenMaterial[3] = {0.0,1.0,0.0};
 float blueMaterial[3] = {0.0,0.0,1.0};
 float wMaterial[3] = {1.0,1.0,1.0};
-int i, j, k;
+int i, j, k, falalag=1;
 float height = 1.0;
 float side = 1.0001;
 int map[10][10][2]; /* 1 -walls  2 - player 
@@ -66,6 +66,7 @@ void testLevel(){
 void level1(){
 	memset(map, 0, sizeof map);
 	objectives=2;
+	currLevel=1;
 	map[0][0][1] = 1;
 	map[0][1][1] = 1;
 	map[0][2][1] = 1;
@@ -149,6 +150,7 @@ void level1(){
 
 void level2(){
 	memset(map, 0, sizeof map);
+	currLevel=2;
 	objectives=4;
 	map[0][0][1] = 1;
 	map[0][1][1] = 1;
@@ -228,6 +230,7 @@ void level2(){
 
 void level3(){
 	memset(map, 0, sizeof map);
+	currLevel=3;
 	objectives=2;
 	map[0][0][1] = 1;
 	map[0][1][1] = 1;
@@ -319,10 +322,201 @@ void level3(){
 				playerx=i;
 				playerz=j;
 			}
+}
+
+void level4(){
+	memset(map, 0, sizeof map);
+	currLevel=4;
+	objectives=1;
+	map[0][0][1] = 1;
+	map[0][1][1] = 1;
+	map[0][2][1] = 1;
+	map[0][3][1] = 1;
+	map[0][4][1] = 1;
+	map[0][5][1] = 1;
+	map[0][6][1] = 1;
+	map[0][7][1] = 1;
+	map[0][8][1] = 1;
+	map[0][9][1] = 1;
+	
+	map[1][0][1] = 1;
+	map[1][4][1] = 21;
+	map[1][8][1] = 1;
+	map[1][9][1] = 1;
+	
+	map[2][0][1] = 1;
+	map[2][4][1] = 1;
+	map[2][5][1] = 1;
+	map[2][6][1] = 1;
+	map[2][8][1] = 1;
+	map[2][9][1] = 1;
+	
+	map[3][0][1] = 1;
+	map[3][2][1] = 11;
+	map[3][4][1] = 1;
+	map[3][5][0] = 3;
+	map[3][6][1] = 1;
+	map[3][4][1] = 1;
+	map[3][8][1] = 1;
+	map[3][9][1] = 1;
+	
+	map[4][0][1] = 1;
+	map[4][4][1] = 1;
+	map[4][6][1] = 1;
+	map[4][7][1] = 31;
+	map[4][8][1] = 1;
+	map[4][9][1] = 1;
+	
+	map[5][0][1] = 1;
+	map[5][4][1] = 1;
+	map[5][6][1] = 1;
+	map[5][7][1] = 1;
+	map[5][8][1] = 1;
+	map[5][9][1] = 1;
+	
+	map[6][0][1] = 1;
+	map[6][4][1] = 1;
+	map[6][9][1] = 1;
+	
+	map[7][0][1] = 1;
+	map[7][4][1] = 1;
+	map[7][6][1] = 3;
+	map[7][8][1] = 31;
+	map[7][9][1] = 1;
+	
+	map[8][0][1] = 1;
+	map[8][1][1] = 2;
+	map[8][4][1] = 1;
+	map[8][9][1] = 1;
+		
+	map[9][0][1] = 1;
+	map[9][1][1] = 1;
+	map[9][2][1] = 1;
+	map[9][3][1] = 1;
+	map[9][4][1] = 1;
+	map[9][5][1] = 1;
+	map[9][6][1] = 1;
+	map[9][7][1] = 1;
+	map[9][8][1] = 1;
+	map[9][9][1] = 1;
+	
+	for(i=0;i<10;i++)
+		for(j=0;j<10;j++)
+			if(map[i][j][1]==2){
+				playerx=i;
+				playerz=j;
+			}
+}
+
+void level5(){
+	memset(map, 0, sizeof map);
+	currLevel=5;
+	objectives=3;
+	map[0][0][1] = 1;
+	map[0][1][1] = 1;
+	map[0][2][1] = 1;
+	map[0][3][1] = 1;
+	map[0][4][1] = 1;
+	map[0][5][1] = 1;
+	map[0][6][1] = 1;
+	map[0][7][1] = 1;
+	map[0][8][1] = 1;
+	map[0][9][1] = 1;
+	
+	map[1][0][1] = 1;
+	map[1][1][1] = 1;
+	map[1][2][1] = 1;
+	map[1][3][1] = 1;
+	map[1][4][1] = 1;
+	map[1][5][1] = 1;
+	map[1][6][1] = 1;
+	map[1][7][1] = 1;
+	map[1][8][1] = 1;
+	map[1][9][1] = 1;
+	
+	map[2][0][1] = 1;
+	map[2][1][1] = 1;
+	map[2][2][1] = 1;
+	map[2][3][1] = 1;
+	map[2][4][1] = 1;
+	map[2][5][1] = 1;
+	map[2][6][1] = 1;
+	map[2][7][1] = 1;
+	map[2][8][1] = 1;
+	map[2][9][1] = 1;
+	
+	map[3][0][1] = 1;
+	map[3][1][1] = 1;
+	map[3][2][1] = 1;
+	map[3][3][1] = 1;
+	map[3][4][1] = 1;
+	map[3][5][1] = 1;
+	map[3][6][1] = 1;
+	map[3][7][1] = 1;
+	map[3][8][1] = 1;
+	map[3][9][1] = 1;
+	
+	map[4][0][1] = 1;
+	map[4][1][1] = 11;
+	map[4][3][1] = 31;
+	map[4][4][1] = 1;
+	map[4][5][1] = 31;
+	map[4][8][0] = 4;
+	map[4][9][1] = 1;
+	
+	map[5][0][1] = 1;
+	map[5][1][1] = 1;
+	map[5][2][1] = 3;
+	map[5][3][1] = 1;
+	map[5][4][1] = 1;
+	map[5][5][1] = 1;
+	map[5][6][1] = 21;
+	map[5][9][1] = 1;
+	
+	map[6][0][1] = 1;
+	map[6][1][0] = 3;
+	map[6][4][1] = 1;
+	map[6][5][1] = 1;
+	map[6][6][1] = 1;
+	map[6][9][1] = 1;
+	
+	map[7][0][1] = 1;
+	map[7][1][1] = 1;
+	map[7][2][1] = 1;
+	map[7][6][1] = 1;
+	map[7][7][1] = 4;
+	map[7][9][1] = 1;
+	
+	map[8][0][1] = 1;
+	map[8][1][1] = 1;
+	map[8][2][1] = 1;
+	map[8][3][1] = 2;
+	map[8][8][1] = 1;
+	map[8][9][1] = 1;
+	
+	map[9][0][1] = 1;
+	map[9][1][1] = 1;
+	map[9][2][1] = 1;
+	map[9][3][1] = 1;
+	map[9][4][1] = 1;
+	map[9][5][1] = 1;
+	map[9][6][1] = 1;
+	map[9][7][1] = 1;
+	map[9][8][1] = 1;
+	map[9][9][1] = 1;
+	
+	for(i=0;i<10;i++)
+		for(j=0;j<10;j++)
+			if(map[i][j][1]==2){
+				playerx=i;
+				playerz=j;
+			}
 }	
 
 void switchLevel(){
 	printf("\ncurrlevel is %d\n",currLevel);
+	if(currLevel==5)
+		currLevel==1;
 	switch (currLevel){
 		case 1:
 			level1();
@@ -333,6 +527,12 @@ void switchLevel(){
 		case 3: 
 			level3();
 			break;
+		case 4: 
+			level4();
+			break;
+		case 5: 
+			level5();
+			break;
 	}
 }	
 
@@ -342,6 +542,7 @@ void animationFadeIn(int time){
 	gluLookAt(5.0,cameraHeight,cameraCenter,5.0,0.0,5.0,0.0,1.0,0.0);
 	if(cameraHeight<15){
 		glutPostRedisplay();
+		falalag=1;
 	}
 	else{
 		glutTimerFunc(100, animationFadeIn, 0);
@@ -354,6 +555,7 @@ void animationFadeOut(int time){
 	cameraHeight+=.5;
 	cameraCenter-=.5;
 	gluLookAt(5.0,cameraHeight,cameraCenter,5.0,0.0,5.0,0.0,1.0,0.0);
+	falalag=0;
 	if(cameraHeight>20){
 		switchLevel();
 		glutTimerFunc(100, animationFadeIn, 0);
@@ -732,7 +934,8 @@ bool isVictory(){
  				if(map[i][j][0] == map[i][j][1])
  					vic++;
  	if(vic==objectives){
- 		currLevel++;
+ 		if(falalag==1)
+ 			currLevel++;
  		glutTimerFunc(100, animationFadeOut, 0);
  		return true;
  	}
@@ -862,7 +1065,7 @@ bool caixaPortaliJumpi(int obj,int x, int y){
 	int posx, posz;
 	for(i=0;i<10;i++)
 		for(j=0;j<10;j++){
-			if(map[i][j][1] == (31) && i != x && j != y){
+			if(map[i][j][1] == (31) && (i != x || j != y)){
 				posx = i;
 				posz = j;
 			}
@@ -899,7 +1102,8 @@ void portaliJumpi(int obj){
 	int posx, posz;
 	for(i=0;i<10;i++)
 		for(j=0;j<10;j++){
-			if(map[i][j][1] == (31) && i != playerx && j != playerz){
+			if(map[i][j][1] == (31) && (i != playerx || j != playerz)){
+				printf("Fodasse");
 				posx = i;
 				posz = j;
 			}		
@@ -943,170 +1147,176 @@ void portaliJumpi(int obj){
 
 void keyboard(unsigned char Key, int x, int y)
 {
-	switch(Key)
-	{
-		case 'W': case 'w':
-			playerd=4;
-			if(isCaixa(walkInto(-1,0, playerx, playerz))){
-				if(map[playerx-2][playerz][1]==0){
-					map[playerx-2][playerz][1]=map[playerx-1][playerz][1];
+		switch(Key)
+		{
+			case 'W': case 'w':
+				playerd=4;
+				if(isCaixa(walkInto(-1,0, playerx, playerz))){
+					if(map[playerx-2][playerz][1]==0){
+						map[playerx-2][playerz][1]=map[playerx-1][playerz][1];
+						map[playerx-1][playerz][1]=2;
+						map[playerx][playerz][1]=0;
+						playerx-=1;
+					}
+					else if(map[playerx-2][playerz][1]==31){
+						caixaPortaliJumpi(map[playerx-1][playerz][1], playerx-2, playerz);
+						map[playerx][playerz][1] = 0;
+						map[playerx-1][playerz][1] = 2;
+						playerx-=1;
+					}
+				}
+				else if(walkInto(-1,0, playerx, playerz)==0){
 					map[playerx-1][playerz][1]=2;
 					map[playerx][playerz][1]=0;
 					playerx-=1;
 				}
-				else if(map[playerx-2][playerz][1]==31){
-					caixaPortaliJumpi(map[playerx-1][playerz][1], playerx-2, playerz);
-					map[playerx][playerz][1] = 0;
-					map[playerx-1][playerz][1] = 2;
+				else if(walkInto(-1,0, playerx, playerz)==11 || walkInto(-1,0, playerx, playerz)==12){
+					openDoor(walkInto(-1,0, playerx, playerz));
+					map[playerx][playerz][1]=0;
 					playerx-=1;
+					map[playerx][playerz][1]=2;
 				}
-			}
-			else if(walkInto(-1,0, playerx, playerz)==0){
-				map[playerx-1][playerz][1]=2;
-				map[playerx][playerz][1]=0;
-				playerx-=1;
-			}
-			else if(walkInto(-1,0, playerx, playerz)==11 || walkInto(-1,0, playerx, playerz)==12){
-				openDoor(walkInto(-1,0, playerx, playerz));
-				map[playerx][playerz][1]=0;
-				playerx-=1;
-				map[playerx][playerz][1]=2;
-			}
-			else if(walkInto(-1,0, playerx, playerz)==31){
-				map[playerx][playerz][1] = 0;
-				playerx-=1;
-				portaliJumpi(walkInto(-1,0, playerx, playerz));
-			}
-			break;
-		case 'a': case 'A':
-			playerd=3;
-			if(isCaixa(walkInto(0,-1, playerx, playerz))){
-				if(map[playerx][playerz-2][1]==0){
-					map[playerx][playerz-2][1]=map[playerx][playerz-1][1];
+				else if(walkInto(-1,0, playerx, playerz)==31){
+					map[playerx][playerz][1] = 0;
+					playerx-=1;
+					portaliJumpi(walkInto(-1,0, playerx, playerz));
+				}
+				break;
+			case 'a': case 'A':
+				playerd=3;
+				if(isCaixa(walkInto(0,-1, playerx, playerz))){
+					if(map[playerx][playerz-2][1]==0){
+						map[playerx][playerz-2][1]=map[playerx][playerz-1][1];
+						map[playerx][playerz-1][1]=2;
+						map[playerx][playerz][1]=0;
+						playerz-=1;
+					}
+					else if(map[playerx][playerz-2][1]==31){
+						caixaPortaliJumpi(map[playerx][playerz-1][1], playerx, playerz-2);
+						map[playerx][playerz][1] = 0;
+						map[playerx][playerz-1][1] = 2;
+						playerz-=1;
+					}
+				}
+				else if(walkInto(0,-1, playerx, playerz)==0){
 					map[playerx][playerz-1][1]=2;
 					map[playerx][playerz][1]=0;
 					playerz-=1;
 				}
-				else if(map[playerx][playerz-2][1]==31){
-					caixaPortaliJumpi(map[playerx][playerz-1][1], playerx, playerz-2);
-					map[playerx][playerz][1] = 0;
-					map[playerx][playerz-1][1] = 2;
+				else if(walkInto(0,-1, playerx, playerz)==11 || walkInto(0,-1, playerx, playerz)==12){
+					openDoor(walkInto(0,-1, playerx, playerz));
+					map[playerx][playerz][1]=0;
 					playerz-=1;
+					map[playerx][playerz][1]=2;
 				}
-			}
-			else if(walkInto(0,-1, playerx, playerz)==0){
-				map[playerx][playerz-1][1]=2;
-				map[playerx][playerz][1]=0;
-				playerz-=1;
-			}
-			else if(walkInto(0,-1, playerx, playerz)==11 || walkInto(0,-1, playerx, playerz)==12){
-				openDoor(walkInto(0,-1, playerx, playerz));
-				map[playerx][playerz][1]=0;
-				playerz-=1;
-				map[playerx][playerz][1]=2;
-			}
-			else if(walkInto(0,-1, playerx, playerz)==31){
-				map[playerx][playerz][1] = 0;
-				playerz-=1;
-				portaliJumpi(walkInto(0,-1, playerx, playerz));
-			}
-			break;
-		case 'd': case 'D':
-			playerd=1;
-			if(isCaixa(walkInto(0,1, playerx, playerz))){
-				if(map[playerx][playerz+2][1]==0){
-					map[playerx][playerz+2][1]=map[playerx][playerz+1][1];
+				else if(walkInto(0,-1, playerx, playerz)==31){
+					map[playerx][playerz][1] = 0;
+					playerz-=1;
+					portaliJumpi(walkInto(0,-1, playerx, playerz));
+				}
+				break;
+			case 'd': case 'D':
+				playerd=1;
+				if(isCaixa(walkInto(0,1, playerx, playerz))){
+					if(map[playerx][playerz+2][1]==0){
+						map[playerx][playerz+2][1]=map[playerx][playerz+1][1];
+						map[playerx][playerz+1][1]=2;
+						map[playerx][playerz][1]=0;
+						playerz+=1;
+					}
+					else if(map[playerx][playerz+2][1]==31){
+						caixaPortaliJumpi(map[playerx][playerz+1][1], playerx, playerz+2);
+						map[playerx][playerz][1] = 0;
+						map[playerx][playerz+1][1] = 2;
+						playerz+=1;
+					}
+				}
+				else if(walkInto(0,1, playerx, playerz)==0){
 					map[playerx][playerz+1][1]=2;
 					map[playerx][playerz][1]=0;
 					playerz+=1;
 				}
-				else if(map[playerx][playerz+2][1]==31){
-					caixaPortaliJumpi(map[playerx][playerz+1][1], playerx, playerz+2);
-					map[playerx][playerz][1] = 0;
-					map[playerx][playerz+1][1] = 2;
+				else if(walkInto(0,1, playerx, playerz)==11 || walkInto(0,1, playerx, playerz)==12){
+					openDoor(walkInto(0,1, playerx, playerz));
+					map[playerx][playerz][1]=0;
 					playerz+=1;
+					map[playerx][playerz][1]=2;
 				}
-			}
-			else if(walkInto(0,1, playerx, playerz)==0){
-				map[playerx][playerz+1][1]=2;
-				map[playerx][playerz][1]=0;
-				playerz+=1;
-			}
-			else if(walkInto(0,1, playerx, playerz)==11 || walkInto(0,1, playerx, playerz)==12){
-				openDoor(walkInto(0,1, playerx, playerz));
-				map[playerx][playerz][1]=0;
-				playerz+=1;
-				map[playerx][playerz][1]=2;
-			}
-			else if(walkInto(0,1, playerx, playerz)==31){
-				map[playerx][playerz][1] = 0;
-				playerz+=1;
-				portaliJumpi(walkInto(0,1, playerx, playerz));
-			}
-			break;
-		case 's': case 'S':
-			playerd=2;
-			if(isCaixa(walkInto(1,0, playerx, playerz))){
-				if(map[playerx+2][playerz][1]==0){
-					map[playerx+2][playerz][1]=map[playerx+1][playerz][1];
+				else if(walkInto(0,1, playerx, playerz)==31){
+					map[playerx][playerz][1] = 0;
+					playerz+=1;
+					portaliJumpi(walkInto(0,1, playerx, playerz));
+				}
+				break;
+			case 's': case 'S':
+				playerd=2;
+				if(isCaixa(walkInto(1,0, playerx, playerz))){
+					if(map[playerx+2][playerz][1]==0){
+						map[playerx+2][playerz][1]=map[playerx+1][playerz][1];
+						map[playerx+1][playerz][1]=2;
+						map[playerx][playerz][1]=0;
+						playerx+=1;
+					}
+					else if(map[playerx+2][playerz][1]==31){
+						caixaPortaliJumpi(map[playerx+1][playerz][1], playerx+2, playerz);
+						map[playerx][playerz][1] = 0;
+						map[playerx+1][playerz][1] = 2;
+						playerx+=1;
+					}
+				}
+				else if(walkInto(1,0, playerx, playerz)==0){
 					map[playerx+1][playerz][1]=2;
 					map[playerx][playerz][1]=0;
 					playerx+=1;
 				}
-				else if(map[playerx+2][playerz][1]==31){
-					caixaPortaliJumpi(map[playerx+1][playerz][1], playerx+2, playerz);
-					map[playerx][playerz][1] = 0;
-					map[playerx+1][playerz][1] = 2;
+				else if(walkInto(1,0, playerx, playerz)==11 || walkInto(1,0, playerx, playerz)==12){
+					openDoor(walkInto(1,0, playerx, playerz));
+					map[playerx][playerz][1]=0;
 					playerx+=1;
+					map[playerx][playerz][1]=2;
 				}
-			}
-			else if(walkInto(1,0, playerx, playerz)==0){
-				map[playerx+1][playerz][1]=2;
-				map[playerx][playerz][1]=0;
-				playerx+=1;
-			}
-			else if(walkInto(1,0, playerx, playerz)==11 || walkInto(1,0, playerx, playerz)==12){
-				openDoor(walkInto(1,0, playerx, playerz));
-				map[playerx][playerz][1]=0;
-				playerx+=1;
-				map[playerx][playerz][1]=2;
-			}
-			else if(walkInto(1,0, playerx, playerz)==31){
-				map[playerx][playerz][1] = 0;
-				playerx+=1;
-				portaliJumpi(walkInto(1,0, playerx, playerz));
-			}
-			break;
-		case 'r': case 'R':
-			switchLevel();
-			break;
-		case 't': case 'T':
-			if(flagRenderBoxes)
-				flagRenderBoxes=false;
-			else
-				flagRenderBoxes=true;
-			break;
-		case '1':
-			level1();
-			break;
-		case '2':
-			level2();
-			break;
-		case '3':
-			level3();
-			break;
-		case 'y': case 'Y':
-			cameraHeight+=1.0;
-			cameraCenter-=1.0;
-			gluLookAt(5.0,cameraHeight,cameraCenter,5.0,0.0,5.0,0.0,1.0,0.0);
-			printf("%.2f, %.2f", cameraHeight, cameraCenter);
-			break;
-		case 'h': case 'H':
-			cameraHeight-=1.0;
-			cameraCenter+=1.0;
-			gluLookAt(5.0,cameraHeight,cameraCenter,5.0,0.0,5.0,0.0,1.0,0.0);
-			break;
-	}	
+				else if(walkInto(1,0, playerx, playerz)==31){
+					map[playerx][playerz][1] = 0;
+					playerx+=1;
+					portaliJumpi(walkInto(1,0, playerx, playerz));
+				}
+				break;
+			case 'r': case 'R':
+				switchLevel();
+				break;
+			case 't': case 'T':
+				if(flagRenderBoxes)
+					flagRenderBoxes=false;
+				else
+					flagRenderBoxes=true;
+				break;
+			case '1':
+				level1();
+				break;
+			case '2':
+				level2();
+				break;
+			case '3':
+				level3();
+				break;
+			case '4':
+				level4();
+				break;
+			case '5':
+				level5();
+				break;
+			case 'y': case 'Y':
+				cameraHeight+=1.0;
+				cameraCenter-=1.0;
+				gluLookAt(5.0,cameraHeight,cameraCenter,5.0,0.0,5.0,0.0,1.0,0.0);
+				printf("%.2f, %.2f", cameraHeight, cameraCenter);
+				break;
+			case 'h': case 'H':
+				cameraHeight-=1.0;
+				cameraCenter+=1.0;
+				gluLookAt(5.0,cameraHeight,cameraCenter,5.0,0.0,5.0,0.0,1.0,0.0);
+				break;
+		}	
 	if(isVictory())
 		glutTimerFunc(100, animationFadeOut, 0);
 	glutPostRedisplay();
